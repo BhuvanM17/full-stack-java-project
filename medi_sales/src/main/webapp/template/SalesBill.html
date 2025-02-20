@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #ffffff;
+        }
+        .invoice-container {
+            border: 2px solid black;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: red;
+            text-shadow: 2px 2px 3px cyan;
+        }
+        .estimate-box {
+            text-align: center;
+            font-weight: bold;
+            background: teal;
+            color: white;
+            padding: 5px;
+            border: 2px solid black;
+            margin-bottom: 10px;
+        }
+        .section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .section div {
+            width: 46%;
+            border: 1.5px solid black;
+            padding: 10px;
+        }
+        .details {
+            text-align: left;
+            margin-top: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            table-layout: auto;
+        }
+        table, th, td {
+            border: 2px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+        th {
+            background: teal;
+            color: white;
+        }
+        .total-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .total-section {
+            text-align: right;
+            font-weight: bold;
+            border: 2px solid black;
+            padding: 10px;
+            width: 40%;
+        }
+        .invoice-details {
+            text-align: left;
+            border: 2px solid black;
+            padding: 10px;
+            width: 40%;
+        }
+    </style>
+</head>
+<body>
+<div class="invoice-container">
+    <div class="header">MEDI SALES PHARMA</div>
+    <div class="estimate-box">INVOICE</div>
+    <div class="section">
+        <div>
+            <h3>Seller Details</h3>
+            <p><span>Customer Name:</span> <span th:text="${seller.contactPerson}"></span></p>
+            <p><span>Address:</span> <span th:text="${seller.address}"></span></p>
+            <p><span>Phone:</span> <span th:text="${seller.mobile}"></span></p>
+        </div>
+        <div>
+            <h3>Buyer Details</h3>
+            <p><span>Customer Name:</span> <span th:text="${user.contactPerson}"></span></p>
+            <p><span>Address:</span> <span th:text="${user.address}"></span></p>
+            <p><span>Phone:</span> <span th:text="${user.mobile}"></span></p>
+        </div>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>Sl. No.</th>
+            <th>Product Name</th>
+            <th>HSN Code</th>
+            <th>Description</th>
+            <th>Exp. Date</th>
+            <th>Quantity</th>
+            <th>MRP</th>
+            <th>GST (%)</th>
+            <th>Discount</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="dto, status : ${sales}">
+            <td th:text="${status.index + 1}"></td>
+            <td th:text="${dto.productName}"></td>
+            <td th:text="${dto.hsn}"></td>
+            <td th:text="${dto.productCompany}"></td>
+            <td th:text="${dto.expDate}"></td>
+            <td th:text="${dto.quantity}"></td>
+            <td th:text="${dto.mrp}"></td>
+            <td th:text="${dto.gst}"></td>
+            <td th:text="${dto.discount}"></td>
+            <td th:text="${dto.totalAmount}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="total-container">
+        <div class="invoice-details">
+            Invoice No: <span th:text="${invNumber}"></span><br>
+            Date: <span th:text="${date}"></span><br>
+            Time: <span th:text="${time}"></span><br>
+        </div>
+        <div class="total-section">
+            <strong>Grand Total: <span th:text="${finalAmount}"></span></strong>
+        </div>
+    </div>
+</div>
+</body>
+</html>
