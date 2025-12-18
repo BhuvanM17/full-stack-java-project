@@ -14,5 +14,8 @@ FROM tomcat:9.0-jdk11-openjdk-slim
 # The war file is built inside the WORKDIR/target
 COPY --from=build /app/target/medi_sales.war /usr/local/tomcat/webapps/ROOT.war
 
+# Disable Tomcat shutdown port to prevent Render health-check warnings
+RUN sed -i 's/port="8005" shutdown="SHUTDOWN"/port="-1" shutdown="SHUTDOWN"/' /usr/local/tomcat/conf/server.xml
+
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
