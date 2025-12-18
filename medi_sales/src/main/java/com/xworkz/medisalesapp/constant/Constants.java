@@ -4,12 +4,13 @@ import lombok.Getter;
 
 @Getter
 public enum Constants {
-    PROFILE_PHOTO_PATH("E://project//medi-sales-profile-photos/"),FROM_EMAIL("bhuvanshetty317@gmail.com"),PASSWORD("fjhz obvj haix yxvy");
+    PROFILE_PHOTO_PATH(System.getenv("PROFILE_PHOTO_PATH") != null ? System.getenv("PROFILE_PHOTO_PATH") : "C://project//medi-sales-profile-photos/"),
+    FROM_EMAIL(System.getenv("MAIL_USERNAME")),
+    PASSWORD(System.getenv("MAIL_PASSWORD"));
 
-    private  String path;
+    private String path;
 
-    Constants(String path){
-        this.path =path;
+    Constants(String path) {
+        this.path = path;
     }
-
 }

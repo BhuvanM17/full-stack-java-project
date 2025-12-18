@@ -1,151 +1,216 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page isELIgnored="false" %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="logo.png" type="image/png">
-    <title>Dashboard - Marg ERP Cloud</title>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ page isELIgnored="false" %>
+        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+            <!DOCTYPE html>
+            <html lang="en">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="icon" href="logo.png" type="image/png">
+                <title>MediSales - Premium Dashboard</title>
 
-    <style>
-        /* General Styling */
-         body {
-                   font-family: Arial, sans-serif;
-                   margin: 0;
-                   padding: 0;
-                   background: url('background.jpg') no-repeat center center fixed;
-                   background-size: cover;
-                   color: #333;
-               }
+                <!-- Google Fonts & Icons -->
+                <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+                    rel="stylesheet">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        /* Header */
-        .header {
-            background-color: #0056b3;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1050;
-        }
+                <!-- Custom CSS -->
+                <link rel="stylesheet" href="css/dashboard.css">
 
-        /* Left section: Logo and Menu */
-        .left-header {
-            display: flex;
-            align-items: center;
-        }
+                <!-- Chart.js -->
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            </head>
 
-        .menu-icon {
-            font-size: 28px;
-            cursor: pointer;
-            color: white;
-            margin-right: 15px;
-            background: none;
-            border: none;
-        }
+            <body>
 
-        .logo-container img {
-            height: 40px;
-        }
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <div class="sidebar-header">
+                        <img src="logo.png" alt="Logo" style="height: 40px; border-radius: 8px;">
+                        <h2
+                            style="font-size: 1.25rem; margin: 0; background: linear-gradient(to right, #6366f1, #ec4899); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                            MediSales</h2>
+                    </div>
 
-        /* Main Content */
-        .main-content {
-            flex: 1; /* Makes content fill available space */
-            margin-top: 70px; /* Space below the fixed header */
-            padding: 20px;
-        }
+                    <nav style="margin-top: 2rem;">
+                        <a href="dashboard" class="nav-link active">
+                            <i class="fa-solid fa-house"></i> Dashboard
+                        </a>
+                        <a href="createstock" class="nav-link">
+                            <i class="fa-solid fa-plus-circle"></i> Create Stock
+                        </a>
+                        <a href="getallstocks" class="nav-link">
+                            <i class="fa-solid fa-boxes-stacked"></i> View Stocks
+                        </a>
+                        <a href="generatebill" class="nav-link">
+                            <i class="fa-solid fa-file-invoice-dollar"></i> Generate Bill
+                        </a>
+                        <a href="fetchDto?eMail=${dto.email}" class="nav-link">
+                            <i class="fa-solid fa-user-gear"></i> Settings
+                        </a>
 
-        /* Sidebar Styling */
-        .offcanvas {
-            background-color: #003d80;
-            color: white;
-        }
+                        <div style="position: absolute; bottom: 2rem; width: 100%;">
+                            <a href="logout.jsp" class="nav-link" style="color: #ef4444;">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </a>
+                        </div>
+                    </nav>
+                </div>
 
-        .offcanvas-header {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
+                <!-- Topbar -->
+                <div class="topbar">
+                    <div class="search-box">
+                        <h2 style="font-size: 1.1rem; margin: 0; font-weight: 500;">Welcome, ${dto.contactPerson}!</h2>
+                    </div>
+                    <div class="user-profile" style="display: flex; align-items: center; gap: 1rem;">
+                        <div class="notifications" style="position: relative;">
+                            <i class="fa-regular fa-bell" style="font-size: 1.2rem; cursor: pointer;"></i>
+                            <span
+                                style="position: absolute; top: -5px; right: -5px; background: #ef4444; width: 8px; height: 8px; border-radius: 50%;"></span>
+                        </div>
+                        <img src="logo.jpeg" alt="Avatar"
+                            style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-color);">
+                    </div>
+                </div>
 
-        .offcanvas-body a {
-            display: block;
-            padding: 12px;
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
+                <!-- Main Content -->
+                <div class="main-content">
+                    <div class="header-msg" style="margin-bottom: 2rem;">
+                        <h1 style="font-weight: 700; margin-bottom: 0.5rem;">Sales Overview</h1>
+                        <p style="color: var(--text-muted);">Real-time metrics for your medical supply business.</p>
+                    </div>
 
-        .offcanvas-body a:hover {
-            background-color: #0056b3;
-        }
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="icon" style="background: rgba(99, 102, 241, 0.2); color: #6366f1;">
+                                <i class="fa-solid fa-box-open"></i>
+                            </div>
+                            <div class="stat-value">${totalProducts}</div>
+                            <div class="stat-label">Total Products</div>
+                        </div>
 
-        /* Footer - Fixed at Bottom */
-        footer {
-            background-color: #f5f9fa;
-            color: #333;
-            text-align: center;
-            padding: 10px 20px;
-            width: 100%;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            z-index: 1000;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-        }
-    </style>
-</head>
-<body>
+                        <div class="stat-card">
+                            <div class="icon" style="background: rgba(236, 72, 153, 0.2); color: #ec4899;">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                            </div>
+                            <div class="stat-value">₹${inventoryValue}</div>
+                            <div class="stat-label">Inventory Value</div>
+                        </div>
 
-    <!-- Header -->
-    <div class="header">
-        <!-- Left Section: Sidebar Button + Logo -->
-        <div class="left-header">
-            <button class="menu-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
-                &#9776;
-            </button>
-            <div class="logo-container">
-                <img src="logo.png" alt="Marg ERP Logo">
-            </div>
-        </div>
+                        <div class="stat-card">
+                            <div class="icon" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            </div>
+                            <div class="stat-value">${lowStockCount}</div>
+                            <div class="stat-label">Low Stock Alerts</div>
+                        </div>
 
-        <!-- Right Section: Home & Logout Buttons -->
-        <div>
-            <a href="logout.jsp" class="btn btn-danger">Logout</a>
-        </div>
-    </div>
+                        <div class="stat-card">
+                            <div class="icon" style="background: rgba(16, 185, 129, 0.2); color: #10b981;">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <div class="stat-value">${dto.noOfLogins}</div>
+                            <div class="stat-label">Total Logins</div>
+                        </div>
+                    </div>
 
-    <!-- Sidebar -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title">Menu</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body">
-            <a href="createstock" class="btn btn-outline-light w-100 mb-2">Create Stock</a>
-            <a href="getallstocks" class="btn btn-outline-light w-100">View Stock</a>
-            <a href="generatebill" class="btn btn-outline-light w-100">Generate Bill</a>
-        </div>
-    </div>
+                    <!-- Content Grid -->
+                    <div class="content-grid">
+                        <div class="panel">
+                            <h3>Inventory Distribution</h3>
+                            <canvas id="inventoryChart" height="150"></canvas>
+                        </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="container">
-            <h2 class="text-primary">Hello, ${dto.getContactPerson()}! Welcome back to your dashboard.</h2>
-        </div>
-    </div>
+                        <div class="panel">
+                            <h3>Quick Actions</h3>
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <button class="btn-premium" onclick="location.href='createstock'">
+                                    <i class="fa-solid fa-plus"></i> Add New Stock
+                                </button>
+                                <button class="btn-premium"
+                                    style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);"
+                                    onclick="location.href='generatebill'">
+                                    <i class="fa-solid fa-file-invoice"></i> Create Bill
+                                </button>
+                                <button class="btn-premium"
+                                    style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);"
+                                    onclick="location.href='getallstocks'">
+                                    <i class="fa-solid fa-list"></i> View Inventory
+                                </button>
+                            </div>
 
-    <footer>
-        <p>&copy; 2025 XWORKZ Cloud. All Rights Reserved.</p>
-    </footer>
+                            <div style="margin-top: 2rem;">
+                                <h4>Recent Alerts</h4>
+                                <c:if test="${lowStockCount > 0}">
+                                    <div
+                                        style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 1rem; border-radius: 8px;">
+                                        <p style="margin: 0; color: #f87171; font-size: 0.9rem;">
+                                            <i class="fa-solid fa-circle-exclamation"></i> ${lowStockCount} products are
+                                            running low on stock!
+                                        </p>
+                                    </div>
+                                </c:if>
+                                <c:if test="${lowStockCount == 0}">
+                                    <p style="color: var(--text-muted); font-size: 0.9rem;">All stocks are healthy.</p>
+                                </c:if>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                <!-- Chart Configuration -->
+                <script>
+                    const ctx = document.getElementById('inventoryChart').getContext('2d');
+                    const labels = [];
+                    const dataValues = [];
 
-</body>
-</html>
+                    <c:forEach items="${topProducts}" var="product">
+                        labels.push('${product.productName}');
+                        dataValues.push(${product.quantity});
+                    </c:forEach>
+
+                    // Fallback if no products
+                    if (labels.length === 0) {
+                        labels.push('No Data');
+                        dataValues.push(0);
+                    }
+
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Stock Quantity',
+                                data: dataValues,
+                                backgroundColor: 'rgba(99, 102, 241, 0.5)',
+                                borderColor: '#6366f1',
+                                borderWidth: 2,
+                                borderRadius: 8
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: { color: 'rgba(255,255,255,0.1)' },
+                                    ticks: { color: '#94a3b8' }
+                                },
+                                x: {
+                                    grid: { display: false },
+                                    ticks: { color: '#94a3b8' }
+                                }
+                            }
+                        }
+                    });
+                </script>
+
+            </body>
+
+            </html>

@@ -26,6 +26,8 @@ public class UserRegistrationController  {
   private   MediSalesService mediSalesService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private com.xworkz.medisalesapp.service.DistributerService distributerService;
     @GetMapping("index")
     public String home() {
         return "index";
@@ -100,6 +102,22 @@ public class UserRegistrationController  {
                 dto.setNoOfLogins(dto.getNoOfLogins()+1);
                 UserDto dto1= mediSalesService.update(dto);
                 model.addAttribute("dto", dto1);
+                
+                // Fetch stats for dashboard
+                java.util.List<com.xworkz.medisalesapp.dto.DistributorDto> stocks = distributerService.getAllProductsStocksByEmail(dto1.getEmail());
+                model.addAttribute("totalProducts", stocks.size());
+                double totalInventoryValue = stocks.stream().mapToDouble(s -> s.getRate() * s.getQuantity()).sum();
+                model.addAttribute("inventoryValue", totalInventoryValue);
+                long lowStockCount = stocks.stream().filter(s -> s.getQuantity() < 10).count();
+                model.addAttribute("lowStockCount", lowStockCount);
+                
+                // Top 5 products for chart
+                java.util.List<com.xworkz.medisalesapp.dto.DistributorDto> topProducts = stocks.stream()
+                        .sorted((a, b) -> Integer.compare(b.getQuantity(), a.getQuantity()))
+                        .limit(5)
+                        .collect(java.util.stream.Collectors.toList());
+                model.addAttribute("topProducts", topProducts);
+                
                 return "dashboard";
             }else {
                 model.addAttribute("notFound", "Invalid Credentials");
@@ -113,8 +131,25 @@ public class UserRegistrationController  {
         }
     }
     @GetMapping("dashboard")
-    public String dashboard() {
+    public String dashboard(HttpSession session, Model model) {
         log.info("Entered dashboard");
+        UserDto dto = (UserDto) session.getAttribute("sessionDto");
+        if (dto != null) {
+            model.addAttribute("dto", dto);
+            java.util.List<com.xworkz.medisalesapp.dto.DistributorDto> stocks = distributerService.getAllProductsStocksByEmail(dto.getEmail());
+            model.addAttribute("totalProducts", stocks.size());
+            double totalInventoryValue = stocks.stream().mapToDouble(s -> s.getRate() * s.getQuantity()).sum();
+            model.addAttribute("inventoryValue", totalInventoryValue);
+            long lowStockCount = stocks.stream().filter(s -> s.getQuantity() < 10).count();
+            model.addAttribute("lowStockCount", lowStockCount);
+            
+            // Top 5 products for chart
+            java.util.List<com.xworkz.medisalesapp.dto.DistributorDto> topProducts = stocks.stream()
+                    .sorted((a, b) -> Integer.compare(b.getQuantity(), a.getQuantity()))
+                    .limit(5)
+                    .collect(java.util.stream.Collectors.toList());
+            model.addAttribute("topProducts", topProducts);
+        }
         return "dashboard";
     }
     @GetMapping("forgot-password")

@@ -46,18 +46,18 @@ public class SpringConfiguration implements WebMvcConfigurer {
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setPassword("Bhuvan@2003");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/medi_sales");
-        dataSource.setUsername("root");
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setPassword(System.getenv("DB_PASSWORD"));
+        dataSource.setUrl(System.getenv("DB_URL"));
+        dataSource.setUsername(System.getenv("DB_USERNAME"));
         return dataSource;
     }
 
     @Bean
     public Properties getProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-        //  properties.setProperty("hibernate.show_sql","true");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
         return properties;
     }
 

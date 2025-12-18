@@ -1,464 +1,215 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page isELIgnored="false" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Sign Up - Marg ERP Cloud</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <style>
-        /* General Styling */
-        body {
-             font-family: 'Segoe UI Emoji', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: url('background.jpg') no-repeat center center fixed;
-            background-size: cover;
-            background-color: #0056b3;
-        }
-        .container {
-           max-width: 700px;
-            margin: 30px auto;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        /* Header Styling */
-        .header {
-            background-color: #0056b3;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-        }
-        .header h1 {
-            font-size: 20px;
-            margin: 0;
-        }
-        .header .home-btn {
-                                       background-color: #fff;        /* White background */
-                                       color: #0056b3;                  /* Blue border to match the text color */
-                                       padding: 8px 15px;             /* Padding for button size */
-                                       font-size: 14px;               /* Font size */
-                                       font-weight: bold;             /* Bold text */
-                                       border-radius: 5px;            /* Rounded corners */
-                                       cursor: pointer;              /* Pointer cursor on hover */
-                                    text-decoration: none;
-                                   }
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ page isELIgnored="false" %>
+        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+            <!DOCTYPE html>
+            <html lang="en">
 
-                            .header .home-btn:hover {
-                                background-color: #0056b3;
-                                color:white;
-                                 border: 2px solid white;
-                            }
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Sign Up - MediSales</title>
+                <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+                    rel="stylesheet">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                <link rel="stylesheet" href="css/auth.css">
+                <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+                <style>
+                    .auth-card {
+                        max-width: 1000px;
+                    }
 
+                    .form-grid {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        gap: 1.5rem;
+                    }
 
-        /* Footer Styling */
-        footer {
-            background-color: #0056b3;
-            color: #333;
-            text-align: center;
-            padding: 10px 20px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-        }
-        footer p {
-            margin: 0;
-            font-size: 14px;
-        }
+                    @media (max-width: 600px) {
+                        .form-grid {
+                            grid-template-columns: 1fr;
+                        }
+                    }
 
-        /* Form Section */
-        .form-section {
-            flex: 2;
-            padding: 30px 20px;
-        }
-        .form-section h2 {
-            font-size: 26px;
-            color: #1d1ef2;
-            margin-bottom: 10px;
-        }
-        .form-section p {
-            color: #777;
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            font-size: 14px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-            display: block;
-        }
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px 12px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .radio-group {
-            display: flex;
-            gap: 10px;
-        }
-        .radio-group input {
-            margin-top: 4px;
-        }
-        .radio-group label {
-            font-size: 14px;
-        }
-        .btn {
-            width: 100%;
-            background-color: #0056b3;
-            color: #fff;
-            border: none;
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .btn:hover {
-            background-color: #004f43;
-        }
-        .form-section a {
-            text-decoration: none;
-            color: #006b5d;
-            font-weight: bold;
-        }
+                    .error-msg {
+                        font-size: 0.75rem;
+                        color: #ef4444;
+                        margin-top: 0.25rem;
+                        display: block;
+                        height: 1rem;
+                    }
+                </style>
+            </head>
 
-        .container {
-                    max-width: 700px;
-                    margin: 50px auto;
-                    display: flex;
-                    background-color: #fff;
-                    border-radius: 10px;
-                    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-                    overflow: hidden;
-                }
-                .form-section {
-                    flex: 2;
-                    padding: 40px 30px;
-                }
-                .form-section h2 {
-                    font-size: 26px;
-                    color: #006b5d;
-                    margin-bottom: 20px;
-                }
-                .btn {
-                    width: 100%;
-                    background-color:#0056b3;
-                    color: #fff;
-                    border: none;
-                    padding: 12px;
-                    font-size: 16px;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    transition: background-color 0.3s;
-                }
-                .btn:hover {
-                    background-color: #0056b2;
-                }
-                .info-section {
-                    flex: 1;
-                    background: linear-gradient(135deg, #0056b3 , #f5f9fa);
-                     padding: 30px 15px;
-                    text-align: center;
-                }
-                .info-section img {
-                    width: 100px;
-                    margin-bottom: 20px;
-                }
+            <body>
 
-        /* Toggle Password Visibility */
-        .password-toggle {
-            position: relative;
-        }
-        .password-toggle input {
-            padding-right: 40px;
-        }
-        .password-toggle .toggle-btn {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            cursor: pointer;
-            font-size: 16px;
-            color: #aaa;
-        }
-        .password-toggle .toggle-btn:hover {
-            color: #333;
-             cursor: pointer;
-        }
-.logo-container {
-            box-shadow:  0 8px 15px rgba(256, 308, 261, 5.6);
-         }
-    </style>
-
-
-</head>
-<body>
-    <!-- Header -->
-   <div class="header">
-       <div class="logo-container">
-                  <img src="logo.png" alt="medi-sales Logo" style="height: 40px;">
-              </div>
-               <div class="btn-group">
-        <a href="index" class="home-btn" >Home</a>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="form-section">
-            <h2>Sign Up</h2>
-            <p>Create an Account on Marg ERP Cloud</p>
-            <form action="registration" method="post" id="signUpForm">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="companyName" class="form-label">Company Name *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-building"></i></span>
-                            <input type="text" class="form-control" id="companyName" name="companyName" required>
+                <div class="auth-card">
+                    <div class="auth-form" style="flex: 1.5;">
+                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+                            <img src="logo.png" alt="Logo" style="height: 32px;">
+                            <h2 style="margin: 0;">MediSales</h2>
                         </div>
-                        <div><span style="font-size:0.7rem;color:red" id="companyNameError"></span></div>
+
+                        <h2 style="font-size: 1.75rem;">Create Enterprise Account</h2>
+                        <p style="color: #94a3b8; margin-bottom: 2rem;">Fill in the details below to join our network.
+                        </p>
+
+                        <form action="registration" method="POST" id="signUpForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="companyName">Company Name</label>
+                                    <input type="text" id="companyName" name="companyName"
+                                        placeholder="e.g. LifeCare Meds" required>
+                                    <span id="companyNameError" class="error-msg"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="contactPerson">Contact Person</label>
+                                    <input type="text" id="contactPerson" name="contactPerson" placeholder="John Doe"
+                                        required>
+                                    <span id="contactPersonError" class="error-msg"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="businessType">Business Type</label>
+                                    <select id="businessType" name="businessType"
+                                        style="width: 100%; background: rgba(15, 23, 42, 0.5); border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.75rem 1rem; color: white; outline: none;"
+                                        required>
+                                        <option value="" disabled selected>Select...</option>
+                                        <option value="Retail">Retail</option>
+                                        <option value="Wholesale">Wholesale</option>
+                                        <option value="Manufacturer">Manufacturer</option>
+                                    </select>
+                                    <span id="businessTypeError" class="error-msg"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="mobile">Mobile Number</label>
+                                    <input type="tel" id="mobile" name="mobile" placeholder="9876543210" required>
+                                    <span id="mobileError" class="error-msg"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" placeholder="john@company.com" required>
+                                    <span id="emailError" class="error-msg"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="address">Full Address</label>
+                                    <input type="text" id="address" name="address" placeholder="123 Business Park, City"
+                                        required>
+                                    <span id="addressError" class="error-msg"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" id="password" name="password" placeholder="••••••••"
+                                        required>
+                                    <span id="passwordError" class="error-msg"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <input type="password" id="confirmPassword" name="confirmPassword"
+                                        placeholder="••••••••" required>
+                                    <span id="confirmPasswordError" class="error-msg"></span>
+                                </div>
+                            </div>
+
+                            <button type="submit" id="submit-btn" class="btn-auth" disabled>Initialize
+                                Registration</button>
+                        </form>
+
+                        <div class="auth-links">
+                            Already have an account? <a href="signin.jsp">Sign in here</a>
+                        </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="contactPerson" class="form-label">Contact Person *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-person"></i></span>
-                            <input type="text" class="form-control" id="contactPerson" name="contactPerson" required>
+
+                    <div class="auth-info">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 1.5rem; border: 1px solid var(--border);">
+                            <i class="fa-solid fa-rocket"
+                                style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1.5rem;"></i>
+                            <h3 style="margin-bottom: 1rem;">Join 5,000+ Businesses</h3>
+                            <p style="color: #94a3b8; font-size: 0.875rem;">Scale your medical sales with automated
+                                invoicing, real-time inventory tracking, and smart analytics.</p>
+
+                            <hr style="border: 0; border-top: 1px solid var(--border); margin: 2rem 0;">
+
+                            <div style="text-align: left; display: flex; flex-direction: column; gap: 1rem;">
+                                <div style="display: flex; gap: 1rem; align-items: start;">
+                                    <i class="fa-solid fa-check" style="color: #10b981; margin-top: 0.25rem;"></i>
+                                    <span style="font-size: 0.8rem;">Inventory Management</span>
+                                </div>
+                                <div style="display: flex; gap: 1rem; align-items: start;">
+                                    <i class="fa-solid fa-check" style="color: #10b981; margin-top: 0.25rem;"></i>
+                                    <span style="font-size: 0.8rem;">GST Compliant Billing</span>
+                                </div>
+                                <div style="display: flex; gap: 1rem; align-items: start;">
+                                    <i class="fa-solid fa-check" style="color: #10b981; margin-top: 0.25rem;"></i>
+                                    <span style="font-size: 0.8rem;">Real-time Stock Alerts</span>
+                                </div>
+                            </div>
                         </div>
-                        <div><span style="font-size:0.7rem;color:red" id="contactPersonError"></span></div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="businessType" class="form-label">Business Type *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-diagram-2-fill"></i></span>
-                            <select id="businessType" name="businessType" class="form-select" required>
-                                <option value="" disabled selected>Select...</option>
-                                <option value="Retail">Retail</option>
-                                <option value="Wholesale">Wholesale</option>
-                                <option value="Manufacturer">Manufacturer</option>
-                            </select>
-                        </div>
-                        <div><span style="font-size:0.7rem;color:red" id="businessTypeError"></span></div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="mobile" class="form-label">Registered Mobile *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-telephone"></i></span>
-                            <input type="text" class="form-control" id="mobile" name="mobile" onblur="checkPhone()" required>
-                        </div>
-                        <div><span id="mobileError" style="font-size:0.7rem;color:red"></span></div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="email" class="form-label">Registered Email *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                            <input type="email" class="form-control" id="email" name="email" onblur="checkEmail()" required>
-                        </div>
-                        <div><span id="emailError" style="font-size:0.7rem;color:red"></span></div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="address" class="form-label">Address *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
-                            <input type="text" class="form-control" id="address" name="address" required>
-                        </div>
-                        <div><span style="font-size:0.7rem;color:red" id="addressError"></span></div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="password" class="form-label">Password *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                            <span class="input-group-text">
-                                <i class="bi " id="togglePassword" onclick="togglePassword('password', 'togglePassword')">👁</i>
-                            </span>
-                        </div>
-                        <div><span style="font-size:0.7rem;color:red" id="passwordError"></span></div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="confirmPassword" class="form-label">Confirm Password *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" oninput="validatePasswords()" required>
-                            <span class="input-group-text">
-                                <i class="bi " id="toggleConfirmPassword" onclick="togglePassword('confirmPassword', 'toggleConfirmPassword')">👁</i>
-                            </span>
-                        </div>
-                        <div><span id="confirmPasswordError" style="font-size:0.7rem;color:red"></span></div>
                     </div>
                 </div>
-                <button type="submit" id="submit-btn" class="btn" disabled>Sign Up</button>
-                <p class="mt-3">Already have an account? <a href="signin" style="color:#0056b3">Sign In</a></p>
-            </form>
-        </div>
-        <div class="info-section">
-                    <img src="img.png" alt="Marg ERP On Cloud">
-                    <h3>Secure Access</h3>
-                    <p>Log in to Marg Cloud to access all your business data, monitor transactions, expenses, and more from anywhere in the world with complete security and ease of use.</p>
-                </div>
-    </div>
 
-    <footer>
-        <p>&copy; 2025 XWORKZ Cloud. All Rights Reserved.</p>
-    </footer>
+                <script>
+                    const API_BASE = window.location.origin + '/medi_sales/api';
 
-    <script>
-        // Toggle password visibility
-        function togglePassword(id, toggleId) {
-            const input = document.getElementById(id);
-            const toggleBtn = document.getElementById(toggleId);
-            if (input.type === "password") {
-                input.type = "text";
-                toggleBtn.textContent = "🙈"; // Hide icon
-            } else {
-                input.type = "password";
-                toggleBtn.textContent = "👁️"; // Show icon
-            }
-        }
+                    const updateSubmitState = (isValid) => {
+                        document.getElementById("submit-btn").disabled = !isValid;
+                    };
 
-        const checkEmail = async () => {
-            const email = document.getElementById("email").value;
-            const response = await axios("http://localhost:8080/medi_sales/api/checkEmail/"+email);
-            const emailError = document.getElementById("emailError");
-            if (response.data === "Email Already Exists") {
-                emailError.innerHTML = response.data;
-            } else {
-                emailError.innerHTML = "";
-                validateForm();
-            }
-        };
+                    const validateForm = async () => {
+                        const formData = {
+                            companyName: document.getElementById("companyName").value,
+                            contactPerson: document.getElementById("contactPerson").value,
+                            businessType: document.getElementById("businessType").value,
+                            mobile: document.getElementById("mobile").value,
+                            email: document.getElementById("email").value,
+                            address: document.getElementById("address").value,
+                            password: document.getElementById("password").value,
+                            confirmPassword: document.getElementById("confirmPassword").value
+                        };
 
-        const checkPhone = async () => {
-            const phone = document.getElementById("mobile").value;
-            const response = await axios("http://localhost:8080/medi_sales/api/checkPhone/"+phone);
-            const mobileError = document.getElementById("mobileError");
-            if (response.data === "PhoneNumber Already Exists") {
-                mobileError.textContent = response.data;
-            } else {
-                mobileError.textContent = "";
-                validateForm();
-            }
-        };
+                        let isValid = true;
 
-        // Password matching validation
-        const validatePasswords = () => {
-            const password = document.getElementById("password").value;
-            const confirmPassword = document.getElementById("confirmPassword").value;
-            const confirmPasswordError = document.getElementById("confirmPasswordError");
-            if (password !== confirmPassword) {
-                confirmPasswordError.textContent = "Passwords do not match";
-            } else {
-                confirmPasswordError.textContent = "";
-            }
-        };
+                        // Valdiate all fields
+                        if (formData.companyName.length < 2) {
+                            document.getElementById("companyNameError").textContent = "Too short";
+                            isValid = false;
+                        } else document.getElementById("companyNameError").textContent = "";
 
-        // Form validation
-        const validateForm = () => {
-            const companyName = document.getElementById("companyName").value;
-            const contactPerson = document.getElementById("contactPerson").value;
-            const businessType = document.getElementById("businessType").value;
-            const mobile = document.getElementById("mobile").value;
-            const email = document.getElementById("email").value;
-            const address = document.getElementById("address").value;
-            const password = document.getElementById("password").value;
-            const confirmPassword = document.getElementById("confirmPassword").value;
+                        if (formData.password.length < 8) {
+                            document.getElementById("passwordError").textContent = "Min 8 chars";
+                            isValid = false;
+                        } else document.getElementById("passwordError").textContent = "";
 
-            let valid = true;
+                        if (formData.password !== formData.confirmPassword) {
+                            document.getElementById("confirmPasswordError").textContent = "Mismatch";
+                            isValid = false;
+                        } else document.getElementById("confirmPasswordError").textContent = "";
 
-            if (companyName.length < 2 || companyName.length > 25) {
-                document.getElementById("companyNameError").textContent = "Company name should be between 2 to 25 characters.";
-                valid = false;
-            } else {
-                document.getElementById("companyNameError").textContent = "";
-            }
+                        // Check Email Availability
+                        if (formData.email.includes('@')) {
+                            try {
+                                const res = await axios(`${API_BASE}/checkEmail/${formData.email}`);
+                                if (res.data === "Email Already Exists") {
+                                    document.getElementById("emailError").textContent = "Already registered";
+                                    isValid = false;
+                                } else document.getElementById("emailError").textContent = "";
+                            } catch (e) { }
+                        }
 
-            if (contactPerson.length < 2 || contactPerson.length > 25) {
-                document.getElementById("contactPersonError").textContent = "Contact person should be between 2 to 25 characters.";
-                valid = false;
-            } else {
-                document.getElementById("contactPersonError").textContent = "";
-            }
+                        updateSubmitState(isValid && formData.companyName && formData.email && formData.password);
+                    };
 
-            if (businessType === "") {
-                document.getElementById("businessTypeError").textContent = "Business type is required.";
-                valid = false;
-            } else {
-                document.getElementById("businessTypeError").textContent = "";
-            }
+                    const inputs = document.querySelectorAll('input, select');
+                    inputs.forEach(input => {
+                        input.addEventListener('input', validateForm);
+                    });
+                </script>
+            </body>
 
-            const phoneRegex = /^\d{10}$/;
-            if (!phoneRegex.test(mobile)) {
-                document.getElementById("mobileError").textContent = "Please enter a valid 10-digit mobile number.";
-                valid = false;
-            } else {
-                document.getElementById("mobileError").textContent = "";
-            }
-
-            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            if (!emailRegex.test(email)) {
-                document.getElementById("emailError").textContent = "Please enter a valid email address.";
-                valid = false;
-            } else {
-                document.getElementById("emailError").textContent = "";
-            }
-
-            if (address.length < 3 || address.length > 50) {
-                document.getElementById("addressError").textContent = "Address should be between 3 to 50 characters.";
-                valid = false;
-            } else {
-                document.getElementById("addressError").textContent = "";
-            }
-
-            if (password.length < 8 || password.length > 20) {
-                document.getElementById("passwordError").textContent = "Password should be between 8 to 20 characters.";
-                valid = false;
-            } else {
-                document.getElementById("passwordError").textContent = "";
-            }
-
-            if (confirmPassword !== password) {
-                document.getElementById("confirmPasswordError").textContent = "Passwords do not match.";
-                valid = false;
-            } else {
-                document.getElementById("confirmPasswordError").textContent = "";
-            }
-
-            document.getElementById("submit-btn").disabled = !valid;
-        };
-
-        document.getElementById("companyName").addEventListener("input", validateForm);
-        document.getElementById("contactPerson").addEventListener("input", validateForm);
-        document.getElementById("businessType").addEventListener("change", validateForm);
-        document.getElementById("mobile").addEventListener("input", checkPhone);
-        document.getElementById("email").addEventListener("blur", checkEmail);
-        document.getElementById("address").addEventListener("input", validateForm);
-        document.getElementById("password").addEventListener("input", validateForm);
-        document.getElementById("confirmPassword").addEventListener("input", validateForm);
-
-      window.onload = () => {
-          document.getElementById("companyNameError").textContent = "";
-          document.getElementById("contactPersonError").textContent = "";
-          document.getElementById("businessTypeError").textContent = "";
-          document.getElementById("mobileError").textContent = "";
-          document.getElementById("emailError").textContent = "";
-          document.getElementById("addressError").textContent = "";
-          document.getElementById("passwordError").textContent = "";
-          document.getElementById("confirmPasswordError").textContent = "";
-      }
-    </script>
-</body>
-</html>
+            </html>
