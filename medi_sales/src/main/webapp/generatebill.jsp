@@ -1,371 +1,338 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page isELIgnored="false" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate Bill - MEDI-SALES</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        /* General Styling */
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: url('background.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ page isELIgnored="false" %>
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+            <!DOCTYPE html>
+            <html lang="en">
 
-        .container {
-            max-width: 850px;
-            margin: 30px auto;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            backdrop-filter: blur(5px);
-        }
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Enterprise Billing - MediSales</title>
 
-        /* Header Styling */
-        .header {
-            background-color: #0056b3;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-        }
+                <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+                    rel="stylesheet">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        .header h1 {
-            font-size: 24px;
-            margin: 0;
-        }
+                <style>
+                    :root {
+                        --primary: #6366f1;
+                        --bg-dark: #0f172a;
+                        --card-glass: rgba(30, 41, 59, 0.7);
+                        --border: rgba(255, 255, 255, 0.1);
+                        --text-muted: #94a3b8;
+                    }
 
-        .header .home-btn {
-            background-color: #fff;
-            color: #0056b3;
-            padding: 10px 20px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            border: none;
-        }
+                    * {
+                        margin: 0;
+                        padding: 0;
+                        box-sizing: border-box;
+                    }
 
-        .header .home-btn:hover {
-            background-color: #0056b3;
-            color: white;
-            border: 2px solid white;
-        }
+                    body {
+                        background-color: var(--bg-dark);
+                        background-image: radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+                        min-height: 100vh;
+                        font-family: 'Outfit', sans-serif;
+                        color: white;
+                        padding: 2rem;
+                    }
 
-        /* Footer Styling */
-        footer {
-            background-color: #f5f9fa;
-            color: #333;
-            text-align: center;
-            padding: 10px 20px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-        }
+                    .container {
+                        max-width: 1200px;
+                        margin: 0 auto;
+                    }
 
-        footer p {
-            margin: 0;
-            font-size: 14px;
-        }
+                    header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 3rem;
+                    }
 
-        /* Form Styling */
-        h2 {
-            margin-bottom: 20px;
-            color: #0056b3;
-        }
+                    .logo {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        font-size: 1.5rem;
+                        font-weight: 800;
+                    }
 
-        h3 {
-            color: #007bff;
-        }
+                    .billing-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 2fr;
+                        gap: 2rem;
+                    }
 
-        .form-row {
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-        }
+                    .panel {
+                        background: var(--card-glass);
+                        border: 1px solid var(--border);
+                        border-radius: 1.5rem;
+                        padding: 2rem;
+                        backdrop-filter: blur(15px);
+                    }
 
-        .form-row .form-select,
-        .form-row input {
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-        }
+                    h2 {
+                        font-size: 1.5rem;
+                        margin-bottom: 1.5rem;
+                    }
 
-        .form-row .col-md-3,
-        .form-row .col-md-2 {
-            padding-right: 10px;
-        }
+                    .form-group {
+                        margin-bottom: 1.25rem;
+                    }
 
-        .form-btn {
-            background-color: #0056b3;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
+                    label {
+                        display: block;
+                        margin-bottom: 0.5rem;
+                        font-size: 0.85rem;
+                        color: var(--text-muted);
+                    }
 
-        .form-btn:hover {
-            background-color: #003d80;
-        }
+                    select,
+                    input {
+                        width: 100%;
+                        background: rgba(15, 23, 42, 0.6);
+                        border: 1px solid var(--border);
+                        padding: 0.8rem 1rem;
+                        border-radius: 0.75rem;
+                        color: white;
+                        outline: none;
+                        transition: all 0.3s;
+                    }
 
-        .form-btn:focus {
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 86, 179, 0.8);
-        }
+                    select:focus,
+                    input:focus {
+                        border-color: var(--primary);
+                    }
 
-        /* Success Message Styling */
-        .success-message {
-            color: green;
-            font-weight: bold;
-            margin-top: 20px;
-        }
+                    .btn-plus {
+                        background: var(--primary);
+                        color: white;
+                        border: none;
+                        padding: 1rem;
+                        border-radius: 0.75rem;
+                        font-weight: 700;
+                        width: 100%;
+                        cursor: pointer;
+                        margin-top: 1rem;
+                        transition: all 0.3s;
+                    }
 
-        .error-message {
-            color: red;
-            font-weight: bold;
-            margin-top: 20px;
-        }
+                    .btn-plus:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+                    }
 
-        /* Table Styling */
-        #sales-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 30px;
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
+                    /* Table Style */
+                    .billing-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-top: 1rem;
+                    }
 
-        #sales-table th,
-        #sales-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
+                    .billing-table th {
+                        text-align: left;
+                        padding: 1rem;
+                        color: var(--text-muted);
+                        font-size: 0.85rem;
+                        border-bottom: 1px solid var(--border);
+                    }
 
-        #sales-table th {
-            background-color: #f5f9fa;
-            font-weight: bold;
-        }
+                    .billing-table td {
+                        padding: 1.25rem 1rem;
+                        border-bottom: 1px solid var(--border);
+                        font-size: 0.9rem;
+                    }
 
-        #maxStockMessage {
-            font-size: 12px;
-            color: blue;
-            margin-top: 5px;
-        }
+                    .total-strip {
+                        margin-top: 2rem;
+                        padding: 1.5rem;
+                        background: rgba(99, 102, 241, 0.1);
+                        border-radius: 1rem;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
 
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
+                    .btn-back {
+                        background: rgba(255, 255, 255, 0.05);
+                        color: white;
+                        text-decoration: none;
+                        padding: 0.75rem 1.25rem;
+                        border-radius: 0.75rem;
+                        border: 1px solid var(--border);
+                        font-size: 0.9rem;
+                    }
 
-            .form-row {
-                flex-direction: column;
-            }
+                    @media (max-width: 1000px) {
+                        .billing-grid {
+                            grid-template-columns: 1fr;
+                        }
+                    }
+                </style>
+            </head>
 
-            .form-btn {
-                width: auto;
-            }
+            <body>
+                <div class="container">
+                    <header>
+                        <div class="logo">
+                            <i class="fa-solid fa-flask-vial" style="color: var(--primary);"></i>
+                            MediSales
+                        </div>
+                        <a href="javascript:history.back()" class="btn-back">
+                            <i class="fa-solid fa-arrow-left"></i> Dashboard
+                        </a>
+                    </header>
 
-            /* Adjust the size of the table on smaller screens */
-            #sales-table th, #sales-table td {
-                padding: 8px;
-            }
-        }
+                    <div class="billing-grid">
+                        <!-- Sidebar Form -->
+                        <div class="panel">
+                            <h2>Invoice Entry</h2>
+                            <form action="getBill" method="POST">
+                                <div class="form-group">
+                                    <label>Select Product</label>
+                                    <select name="productName" id="productName" required onchange="fetchProductStock()">
+                                        <option value="">Choose item...</option>
+                                    </select>
+                                    <div id="maxStockMessage"
+                                        style="font-size: 0.75rem; color: #10b981; margin-top: 0.4rem;"></div>
+                                </div>
 
-        @media (max-width: 576px) {
-            /* Adjust input field sizes */
-            .form-row .form-select,
-            .form-row input {
-                font-size: 12px;
-            }
+                                <div class="form-group">
+                                    <label>Target Customer</label>
+                                    <select name="customerName" id="customerName" required>
+                                        <option value="">Choose customer...</option>
+                                    </select>
+                                </div>
 
-            /* Make the table scrollable on very small screens */
-            #sales-table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-        }
-    </style>
-</head>
-<body>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                    <div class="form-group">
+                                        <label>Quantity</label>
+                                        <input type="number" name="quantity" id="quantityEntered" placeholder="0"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>GST (%)</label>
+                                        <input type="number" name="gst" value="12" required>
+                                    </div>
+                                </div>
 
-    <!-- Header -->
-    <div class="header">
-        <div class="logo-container">
-            <img src="logo.png" alt="Medi-Sales Logo" style="height: 40px;">
-        </div>
-        <div class="btn-group">
-            <button class="home-btn" onclick="window.history.back();">Back</button>
-        </div>
-    </div>
+                                <div class="form-group">
+                                    <label>Discount (%)</label>
+                                    <input type="number" name="discount" value="0">
+                                </div>
 
-    <div class="container">
-        <!-- Sales Bill Form -->
-        <form method="post" action="getBill">
-            <h2 id="page-title">Vendor Sales Bill</h2>
-            <h3>Billing for : ${customerName}</h3>
-            <p>Address: ${address}</p>
+                                <button type="submit" class="btn-plus">
+                                    <i class="fa-solid fa-plus-circle"></i> Add to Invoice
+                                </button>
 
-            <div class="row form-row">
-                <div class="col-md-3">
-                    <select name="productName" id="productName" class="form-select" required onchange="fetchProductStock()">
-                        <option value="">Select Product</option>
-                    </select>
+                                <a href="generatePdf" class="btn-plus"
+                                    style="background: #10b981; margin-top: 0.75rem; display: flex; text-decoration: none; align-items: center; justify-content: center; gap: 0.5rem;">
+                                    <i class="fa-solid fa-file-pdf"></i> Generate Final PDF
+                                </a>
+                            </form>
+                        </div>
+
+                        <!-- Table View -->
+                        <div class="panel">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                                <h2>Active Invoice Draft</h2>
+                                <span
+                                    style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.4rem 0.8rem; border-radius: 2rem; font-size: 0.75rem; font-weight: 600;">System
+                                    Active</span>
+                            </div>
+
+                            <div style="overflow-x: auto;">
+                                <table class="billing-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Item Name</th>
+                                            <th>Qty</th>
+                                            <th>MRP</th>
+                                            <th>Tax</th>
+                                            <th>Discount</th>
+                                            <th>Net Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach var="dto" items="${dtoList}" varStatus="status">
+                                            <tr>
+                                                <td>${status.index + 1}</td>
+                                                <td style="font-weight: 600;">${dto.productName}</td>
+                                                <td>${dto.quantity}</td>
+                                                <td>₹${dto.mrp}</td>
+                                                <td>${dto.gst}%</td>
+                                                <td>${dto.discount}%</td>
+                                                <td style="color: #10b981; font-weight: 700;">₹${dto.totalAmount}</td>
+                                            </tr>
+                                        </c:forEach>
+                                        <c:if test="${empty dtoList}">
+                                            <tr>
+                                                <td colspan="7"
+                                                    style="text-align: center; color: var(--text-muted); padding: 3rem;">
+                                                    No items added to current invoice session</td>
+                                            </tr>
+                                        </c:if>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="total-strip">
+                                <div style="color: var(--text-muted); font-size: 0.9rem;">Invoice Grand Total:</div>
+                                <div style="font-size: 1.5rem; font-weight: 800; color: #10b981;">₹${total}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <select name="customerName" id="customerName" class="form-select" required>
-                        <option value="">Select Customer</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <input type="number" name="quantity" id="quantityEntered" class="form-control" placeholder="Quantity" required />
-                    <div id="maxStockMessage"></div>
-                </div>
-                <div class="col-md-2">
-                    <input type="number" name="gst" id="gstEntered" class="form-control" placeholder="GST (%)" required />
-                </div>
-                <div class="col-md-2">
-                    <input type="number" name="discount" id="discountEntered" class="form-control" placeholder="Discount (%)" required />
-                </div>
-            </div>
 
-            <!-- Submit Button -->
-            <div class="form-row mt-3">
-                <button type="submit" class="form-btn">Add</button>
-                <a href="http://localhost:8080/medi_sales/generatePdf" class="form-btn" style="background-color: #28a745;">Generate PDF</a>
-            </div>
+                <script>
+                    const API_BASE = window.location.origin + '/medi_sales/api';
 
-                <div class="success-message">${success}</div>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        fetchProducts();
+                        fetchCustomers();
+                    });
 
-        </form>
+                    async function fetchProducts() {
+                        try {
+                            const res = await fetch(`${API_BASE}/getProducts`);
+                            const data = await res.json();
+                            let select = document.getElementById("productName");
+                            data.forEach(p => {
+                                let opt = document.createElement("option");
+                                opt.value = p; opt.text = p;
+                                select.appendChild(opt);
+                            });
+                        } catch (e) { console.error(e); }
+                    }
 
-       <h3 class="mt-4">Sales Bill Details</h3>
-               <table id="sales-table">
-                   <thead>
-                       <tr>
-                           <th>Sl.no</th>
-                           <th>Product</th>
-                           <th>HSN No</th>
-                           <th>Description</th>
-                           <th>Exp. Date</th>
-                           <th>Quantity</th>
-                           <th>Mrp</th>
-                           <th>GST</th>
-                           <th>Discount</th>
-                           <th>Total</th>
-                       </tr>
-                   </thead>
-                  <tbody>
-                      <c:forEach var="dto" items="${dtoList}" varStatus="status">
-                          <tr>
-                              <td>${status.index + 1}</td>
-                              <td>${dto.productName}</td>
-                              <td>${dto.hsn}</td>
-                              <td>${dto.productCompany}</td>
-                              <td>${dto.expDate}</td>
-                              <td>${dto.quantity}</td>
-                              <td>${dto.mrp}</td>
-                              <td>${dto.gst}</td>
-                              <td>${dto.discount}</td>
-                              <td>${dto.totalAmount}</td>
-                          </tr>
-                      </c:forEach>
-                  </tbody>
+                    async function fetchCustomers() {
+                        try {
+                            const res = await fetch(`${API_BASE}/getCustomer`);
+                            const data = await res.json();
+                            let select = document.getElementById("customerName");
+                            data.forEach(c => {
+                                let opt = document.createElement("option");
+                                opt.value = c; opt.text = c;
+                                select.appendChild(opt);
+                            });
+                        } catch (e) { console.error(e); }
+                    }
 
-               </table>
+                    async function fetchProductStock() {
+                        const name = document.getElementById("productName").value;
+                        const msg = document.getElementById("maxStockMessage");
+                        if (name) {
+                            try {
+                                const res = await fetch(`${API_BASE}/getStockByProduct?productName=${name}`);
+                                const stock = await res.json();
+                                msg.innerHTML = `<i class="fa-solid fa-warehouse"></i> ${stock} units available`;
+                                document.getElementById("quantityEntered").max = stock;
+                            } catch (e) { }
+                        } else msg.innerHTML = "";
+                    }
+                </script>
+            </body>
 
-               <!-- Total Amount -->
-               <h4 class="mt-4 text-end" id="allTotal">Total: ${total}</h4>
-
-           </div>
-    <footer>
-        <p>&copy; 2025 XWORKZ Cloud. All Rights Reserved.</p>
-    </footer>
-
-   <script>
-           document.addEventListener("DOMContentLoaded", function() {
-               fetchProducts();
-               fetchCustomers();
-           });
-
-           function fetchProducts() {
-               fetch('http://localhost:8080/medi_sales/api/getProducts')
-                   .then(response => response.json())
-                   .then(data => {
-                       let selectElement = document.getElementById("productName");
-                       selectElement.innerHTML = '<option value="">Select Product</option>';
-                       data.forEach(product => {
-                           let option = document.createElement("option");
-                           option.value = product;
-                           option.text = product;
-                           selectElement.appendChild(option);
-                       });
-                   })
-                   .catch(error => console.error('Error fetching products:', error));
-           }
-
-           function fetchCustomers() {
-               fetch('http://localhost:8080/medi_sales/api/getCustomer')
-                   .then(response => response.json())
-                   .then(data => {
-                       let selectElement = document.getElementById("customerName");
-                       selectElement.innerHTML = '<option value="">Select Customer</option>';
-                       data.forEach(customer => {
-                           let option = document.createElement("option");
-                           option.value = customer;
-                           option.text = customer;
-                           selectElement.appendChild(option);
-                       });
-                   })
-                   .catch(error => console.error('Error fetching customers:', error));
-           }
-
-           function fetchProductStock() {
-                                const name = document.getElementById("productName").value ;
-                                console.log(name);
-                                if (name) {
-                                   fetch("http://localhost:8080/medi_sales/api/getStockByProduct?productName="+name)
-                                        .then(response => response.json())
-                                        .then(stock => {
-                                            const maxStockMessage = document.getElementById("maxStockMessage");
-                                            maxStockMessage.textContent = "Maximum quantity available is "+stock;
-
-                                            const quantityInput = document.getElementById("quantityEntered");
-                                            quantityInput.setAttribute("placeholder", "Enter quantity (max "+stock+")");
-                                        })
-                                        .catch(error => console.error('Error fetching product stock:', error));
-                                        } else {
-                                            const maxStockMessage = document.getElementById("maxStockMessage");
-                                            maxStockMessage.textContent = '';
-
-                                            const quantityInput = document.getElementById("quantityEntered");
-                                            quantityInput.setAttribute("placeholder", "Enter quantity");
-                                        }
-                                    }
-   </script>
-
-</body>
-</html>
+            </html>

@@ -47,30 +47,50 @@ public class SpringConfiguration implements WebMvcConfigurer {
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setPassword(System.getenv("DB_PASSWORD"));
         
         String dbUrl = System.getenv("DB_URL");
+        String dbUser = System.getenv("DB_USERNAME");
+        String dbPass = System.getenv("DB_PASSWORD");
+
         if (dbUrl != null) {
-            // Remove 'postgres://' or 'postgresql://' and replace with 'jdbc:postgresql://'
+            // 1. Standardize the protocol
             if (dbUrl.startsWith("postgres://")) {
                 dbUrl = dbUrl.replace("postgres://", "jdbc:postgresql://");
             } else if (dbUrl.startsWith("postgresql://")) {
                 dbUrl = dbUrl.replace("postgresql://", "jdbc:postgresql://");
-            } else if (!dbUrl.startsWith("jdbc:")) {
+            } else if (!dbUrl.startsWith("jdbc:postgresql://")) {
                 dbUrl = "jdbc:postgresql://" + dbUrl;
             }
 
-            // If the URL contains credentials (user:pass@host), strip them for the JDBC URL
-            // Example: jdbc:postgresql://user:pass@host:port/db -> jdbc:postgresql://host:port/db
+            // 2. Extract credentials if missing from environment variables
+            // Format: jdbc:postgresql://user:pass@host:port/db
             if (dbUrl.contains("@")) {
-                int startIndex = dbUrl.indexOf("://") + 3;
+                int schemeEnd = dbUrl.indexOf("://") + 3;
                 int atIndex = dbUrl.indexOf("@");
-                dbUrl = dbUrl.substring(0, startIndex) + dbUrl.substring(atIndex + 1);
+                String credentials = dbUrl.substring(schemeEnd, atIndex);
+                
+                if ((dbUser == null || dbUser.isEmpty()) && credentials.contains(":")) {
+                    dbUser = credentials.split(":")[0];
+                }
+                if ((dbPass == null || dbPass.isEmpty()) && credentials.contains(":")) {
+                    dbPass = credentials.split(":")[1];
+                }
+                
+                // 3. Clean the URL (remove user:pass@)
+                dbUrl = dbUrl.substring(0, schemeEnd) + dbUrl.substring(atIndex + 1);
+            }
+            
+            // 4. Force SSL (Required by Render/Heroku/AWS)
+            if (!dbUrl.contains("sslmode")) {
+                dbUrl += (dbUrl.contains("?") ? "&" : "?") + "sslmode=require";
             }
         }
-        
+
         dataSource.setUrl(dbUrl);
-        dataSource.setUsername(System.getenv("DB_USERNAME"));
+        dataSource.setUsername(dbUser);
+        dataSource.setPassword(dbPass);
+        
+        System.out.println("Connection initialized with URL: " + dbUrl);
         return dataSource;
     }
 

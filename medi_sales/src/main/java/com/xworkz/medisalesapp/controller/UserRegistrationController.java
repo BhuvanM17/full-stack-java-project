@@ -20,7 +20,6 @@ import javax.validation.Valid;
 
 @Slf4j
 @Controller
-@RequestMapping("/")
 public class UserRegistrationController  {
 @Autowired
   private   MediSalesService mediSalesService;

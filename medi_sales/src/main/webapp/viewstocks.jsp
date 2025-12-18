@@ -1,215 +1,291 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page isELIgnored="false" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>View Stock - MEDI-SALES</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        /* General Styling */
-        body {
-            font-family: 'Segoe UI Emoji', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: url('background.jpg') no-repeat center center fixed;
-            background-size: cover;
-            background-color: #f8f9fa;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 50px auto;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-        }
-        /* Header Styling */
-        .header {
-            background-color: #0056b3;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-        }
-        .header h1 {
-            font-size: 20px;
-            margin: 0;
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ page isELIgnored="false" %>
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+            <!DOCTYPE html>
+            <html lang="en">
 
-        }
-        .header .home-btn {
-            background-color: #fff;
-            color: #0056b3;
-            padding: 8px 15px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .header .home-btn:hover {
-            background-color: #0056b3;
-            color:white;
-            border: 2px solid white;
-        }
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Inventory Registry - MediSales</title>
 
-        /* Footer Styling */
-        footer {
-            background-color: #f5f9fa;
-            color: #333;
-            text-align: center;
-            padding: 10px 20px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-        }
-        footer p {
-            margin: 0;
-            font-size: 14px;
-        }
+                <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+                    rel="stylesheet">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        /* Table Styling */
-        #user-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        #user-table th, #user-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        #user-table th {
-            background-color: #f5f9fa;
-            font-weight: bold;
-        }
-        .btn-small {
-            padding: 6px 12px;
-            font-size: 12px;
-            color: #fff;
-            background-color: #0056b3;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-        .btn-small:hover {
-            background-color: #003d80;
-        }
-        .btn-delete {
-            background-color: #dc3545;
-        }
-        .btn-delete:hover {
-            background-color: #c82333;
-        }
-        .btn-container {
-            display: flex;  /* Using flexbox for alignment */
-            gap: 10px;      /* Adds space between the buttons */
-        }
-        #page-title {
-            font-weight: bold;          /* Makes the text bold */
-            font-family: 'Segoe UI', Arial, sans-serif;  /* Custom font family */
-            text-align: center;
-            font-size: 28px;
-            color: #0056b3;             /* You can change the color if needed */
-            margin-top: 20px;           /* Adds space above the title */
-            margin-bottom: 20px;        /* Adds space below the title */
-        }
+                <style>
+                    :root {
+                        --primary: #6366f1;
+                        --secondary: #ec4899;
+                        --bg-dark: #0f172a;
+                        --card-glass: rgba(30, 41, 59, 0.7);
+                        --border: rgba(255, 255, 255, 0.1);
+                        --text-muted: #94a3b8;
+                    }
 
-        /* Adjust the layout and make it mobile-friendly */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-                max-width: 100%;
-            }
-            #user-table th, #user-table td {
-                padding: 8px;
-                font-size: 14px;
-            }
-        }
-        h3 {
-            font-family: 'Segoe UI', Arial, sans-serif;  /* Choose a clean font */
-            font-size: 24px;                            /* Set font size */
-            font-weight: bold;                          /* Make the title bold */
-            color:  #0056b3;                                /* Set the text color */
+                    * {
+                        margin: 0;
+                        padding: 0;
+                        box-sizing: border-box;
+                    }
 
-            padding: 10px 20px;                         /* Add padding around the text */
-            border-radius: 5px;
-            margin-top: 20px;                           /* Space above the heading */
-            margin-bottom: 20px;                        /* Space below the heading */
-            text-transform: uppercase;                  /* Make the text uppercase */
-        }
+                    body {
+                        background-color: var(--bg-dark);
+                        background-image: radial-gradient(circle at 100% 0%, rgba(236, 72, 153, 0.05) 0%, transparent 50%);
+                        min-height: 100vh;
+                        font-family: 'Outfit', sans-serif;
+                        color: white;
+                        padding: 2rem 3rem;
+                    }
 
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <div class="header">
-        <div class="logo-container">
-            <img src="logo.png" alt="Medi-Sales Logo" style="height: 40px;">
-        </div>
-        <div class="btn-group">
-            <button class="home-btn" onclick="window.history.back();">Back</button>
-        </div>
-    </div>
+                    header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 3rem;
+                        max-width: 1400px;
+                        margin-left: auto;
+                        margin-right: auto;
+                    }
 
-    <!-- Container -->
-    <div class="container">
-        <h2 id="page-title">Stock Details</h2>
+                    .logo {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        font-size: 1.5rem;
+                        font-weight: 800;
+                    }
 
-        <!-- Stock Details Table -->
-        <h3>Existing Stock</h3>
-        <table id="user-table">
-            <thead>
-                <tr id="header-row">
-                    <th class="table-column" id="column-slno">Sl.no</th>
-                    <th class="table-column" id="column-product-company">Product Company</th>
-                    <th class="table-column" id="column-product-name">Product Name</th>
-                    <th class="table-column" id="column-mrp">MRP</th>
-                    <th class="table-column" id="column-hsn">HSN</th>
-                    <th class="table-column" id="column-pack">Pack</th>
-                    <th class="table-column" id="column-batchno">BatchNo</th>
-                    <th class="table-column" id="column-mfg-date">Mfg Date</th>
-                    <th class="table-column" id="column-exp-date">Exp Date</th>
-                    <th class="table-column" id="column-quantity">Quantity</th>
-                    <th class="table-column" id="column-rate">Rate</th>
-                    <th class="table-column" id="column-discount">Discount</th>
-                </tr>
-            </thead>
-            <tbody id="user-table-body">
-                <!-- Dynamic content using JSTL -->
-                <c:forEach var="stock" items="${stockList}">
-                    <tr class="user-row">
-                        <td class="user-id">${stock.id}</td>
-                        <td class="user-product-company">${stock.productCompany}</td>
-                        <td class="user-product-name">${stock.productName}</td>
-                        <td class="user-mrp">${stock.mrp}</td>
-                        <td class="user-hsn">${stock.hsn}</td>
-                        <td class="user-pack">${stock.pack}</td>
-                        <td class="user-batchno">${stock.batchNo}</td>
-                        <td class="user-mfg-date">${stock.mfgDate}</td>
-                        <td class="user-exp-date">${stock.expDate}</td>
-                        <td class="user-quantity">${stock.quantity}</td>
-                        <td class="user-rate">${stock.rate}</td>
-                        <td class="user-discount">${stock.discount}</td>
-                       <!-- <td class="user-actions">
-                            <div class="btn-container">
-                                <a href="fetchStockDetails?id=${stock.id}" class="btn-small btn-update">Update</a>
-                                <a href="deleteStock?id=${stock.id}" class="btn-small btn-delete btn-small-delete">Delete</a>
+                    .container {
+                        max-width: 1400px;
+                        margin: 0 auto;
+                    }
+
+                    .panel {
+                        background: var(--card-glass);
+                        border: 1px solid var(--border);
+                        border-radius: 2rem;
+                        padding: 2.5rem;
+                        backdrop-filter: blur(15px);
+                        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+                    }
+
+                    .panel-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 2.5rem;
+                    }
+
+                    h2 {
+                        font-size: 1.75rem;
+                        font-weight: 700;
+                    }
+
+                    .table-container {
+                        overflow-x: auto;
+                        border-radius: 1rem;
+                        background: rgba(15, 23, 42, 0.4);
+                        border: 1px solid var(--border);
+                    }
+
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        font-size: 0.9rem;
+                    }
+
+                    th {
+                        background: rgba(255, 255, 255, 0.03);
+                        text-align: left;
+                        padding: 1.25rem 1rem;
+                        color: var(--text-muted);
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        letter-spacing: 0.05em;
+                        font-size: 0.75rem;
+                        border-bottom: 1px solid var(--border);
+                    }
+
+                    td {
+                        padding: 1.25rem 1rem;
+                        border-bottom: 1px solid var(--border);
+                        color: #f8fafc;
+                    }
+
+                    tr:last-child td {
+                        border-bottom: none;
+                    }
+
+                    tr:hover td {
+                        background: rgba(255, 255, 255, 0.02);
+                    }
+
+                    .badge {
+                        padding: 0.4rem 0.8rem;
+                        border-radius: 2rem;
+                        font-size: 0.7rem;
+                        font-weight: 700;
+                    }
+
+                    .badge-success {
+                        background: rgba(16, 185, 129, 0.1);
+                        color: #10b981;
+                    }
+
+                    .badge-warning {
+                        background: rgba(245, 158, 11, 0.1);
+                        color: #f59e0b;
+                    }
+
+                    .badge-danger {
+                        background: rgba(239, 68, 68, 0.1);
+                        color: #ef4444;
+                    }
+
+                    .btn-back {
+                        color: white;
+                        text-decoration: none;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        background: rgba(255, 255, 255, 0.05);
+                        padding: 0.75rem 1.25rem;
+                        border-radius: 0.75rem;
+                        border: 1px solid var(--border);
+                        font-size: 0.9rem;
+                        transition: all 0.3s;
+                    }
+
+                    .btn-back:hover {
+                        background: rgba(255, 255, 255, 0.1);
+                        border-color: var(--primary);
+                    }
+
+                    .status-dot {
+                        height: 8px;
+                        width: 8px;
+                        border-radius: 50%;
+                        display: inline-block;
+                        margin-right: 6px;
+                    }
+
+                    @media (max-width: 768px) {
+                        body {
+                            padding: 1.5rem;
+                        }
+
+                        .panel {
+                            padding: 1.5rem;
+                        }
+
+                        .panel-header {
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 1rem;
+                        }
+                    }
+                </style>
+            </head>
+
+            <body>
+                <header>
+                    <div class="logo">
+                        <i class="fa-solid fa-flask-vial" style="color: var(--primary);"></i>
+                        MediSales
+                    </div>
+                    <a href="javascript:history.back()" class="btn-back">
+                        <i class="fa-solid fa-arrow-left"></i> Discard & Return
+                    </a>
+                </header>
+
+                <div class="container">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h2>Inventory Registry</h2>
+                                <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.25rem;">Live view
+                                    of all medical products in stock.</p>
                             </div>
-                        </td>-->
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-    </div>
+                            <div style="display: flex; gap: 1rem;">
+                                <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> Enterprise
+                                    Verified</span>
+                            </div>
+                        </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 XWORKZ Cloud. All Rights Reserved.</p>
-    </footer>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Ref ID</th>
+                                        <th>Product Details</th>
+                                        <th>Company</th>
+                                        <th>MRP</th>
+                                        <th>Batch / HSN</th>
+                                        <th>Dates (MFG/EXP)</th>
+                                        <th>Volume</th>
+                                        <th>Pricing</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="stock" items="${stockList}">
+                                        <tr>
+                                            <td style="color: var(--text-muted);">#${stock.id}</td>
+                                            <td>
+                                                <div style="font-weight: 700;">${stock.productName}</div>
+                                                <div style="font-size: 0.75rem; color: var(--text-muted);">${stock.pack}
+                                                    Pack</div>
+                                            </td>
+                                            <td>${stock.productCompany}</td>
+                                            <td style="font-weight: 600;">₹${stock.mrp}</td>
+                                            <td>
+                                                <div style="font-size: 0.85rem;">${stock.batchNo}</div>
+                                                <div style="font-size: 0.7rem; color: var(--text-muted);">${stock.hsn}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div style="font-size: 0.85rem;">${stock.mfgDate}</div>
+                                                <div style="font-size: 0.85rem; color: #ef4444;">${stock.expDate}</div>
+                                            </td>
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${stock.quantity < 10}">
+                                                        <span style="color: #ef4444; font-weight: 700;"><i
+                                                                class="fa-solid fa-triangle-exclamation"></i>
+                                                            ${stock.quantity} Unit</span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <span style="font-weight: 500;">${stock.quantity} Unit</span>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                            <td>
+                                                <div style="font-weight: 600;">₹${stock.rate}</div>
+                                                <div style="font-size: 0.75rem; color: #10b981;">-${stock.discount}%
+                                                    Disc</div>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                    <c:if test="${empty stockList}">
+                                        <tr>
+                                            <td colspan="8"
+                                                style="text-align: center; padding: 4rem; color: var(--text-muted);">
+                                                <i class="fa-solid fa-inbox"
+                                                    style="font-size: 3rem; display: block; margin-bottom: 1rem; opacity: 0.5;"></i>
+                                                No records found in the current inventory cluster.
+                                            </td>
+                                        </tr>
+                                    </c:if>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
-</body>
-</html>
+                <footer
+                    style="margin-top: 3rem; text-align: center; color: var(--text-muted); font-size: 0.8rem; padding-bottom: 2rem;">
+                    &copy; 2025 MediSales Enterprise. Advanced Pharma ERP Cloud.
+                </footer>
+            </body>
+
+            </html>

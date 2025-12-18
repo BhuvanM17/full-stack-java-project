@@ -62,6 +62,7 @@
                     font-weight: 700;
                     background: linear-gradient(to right, #818cf8, #f472b6);
                     -webkit-background-clip: text;
+                    background-clip: text;
                     -webkit-text-fill-color: transparent;
                 }
 
@@ -121,6 +122,7 @@
                 .gradient-text {
                     background: linear-gradient(to right, #818cf8, #f472b6);
                     -webkit-background-clip: text;
+                    background-clip: text;
                     -webkit-text-fill-color: transparent;
                 }
 

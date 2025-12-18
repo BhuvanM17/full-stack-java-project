@@ -1,263 +1,208 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page isELIgnored="false" %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OTP Sign In - Marg ERP Cloud</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <style>
-              /* General Styling */
-              body {
-                  font-family: 'Segoe UI Emoji', Arial, sans-serif;
-                  margin: 0;
-                  padding: 0;
-                  background: url('background.jpg') no-repeat center center fixed;
-                  background-size: cover;
-                  background-color: #f8f9fa;
-              }
-              .container {
-                 max-width: 700px;
-                  margin: 30px auto;
-                  background-color: #fff;
-                  border-radius: 10px;
-                  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-                  overflow: hidden;
-              }
-              /* Header Styling */
-              .header {
-                  background-color: #0056b3;
-                  padding: 15px 30px;
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  color: white;
-              }
-              .header h1 {
-                  font-size: 20px;
-                  margin: 0;
-              }
-               .header .home-btn {
-                                    background-color: #fff;        /* White background */
-                                    color: #0056b3;                  /* Blue border to match the text color */
-                                    padding: 8px 15px;             /* Padding for button size */
-                                    font-size: 14px;               /* Font size */
-                                    font-weight: bold;             /* Bold text */
-                                    border-radius: 5px;            /* Rounded corners */
-                                    cursor: pointer;              /* Pointer cursor on hover */
-                                 text-decoration: none;
-                                }
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ page isELIgnored="false" %>
+        <!DOCTYPE html>
+        <html lang="en">
 
-                         .header .home-btn:hover {
-                             background-color: #0056b3;
-                             color:white;
-                              border: 2px solid white;
-                         }
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Secure Access - MediSales</title>
 
-              /* Footer Styling */
-              footer {
-                  background-color: #f5f9fa;
-                  color: #333;
-                  text-align: center;
-                  padding: 10px 20px;
-                  position: fixed;
-                  bottom: 0;
-                  width: 100%;
-                  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-              }
-              footer p {
-                  margin: 0;
-                  font-size: 14px;
-              }
+            <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+                rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-              /* Form Section */
-              .form-section {
-                  flex: 2;
-                  padding: 30px 20px;
-              }
-              .form-section h2 {
-                  font-size: 26px;
-                  color: #0056b3;
-                  margin-bottom: 10px;
-              }
-              .form-section p {
-                  color: #777;
-                  font-size: 14px;
-                  margin-bottom: 30px;
-              }
-              .form-group {
-                  margin-bottom: 20px;
-              }
-              .form-group label {
-                  font-size: 14px;
-                  font-weight: bold;
-                  color: #333;
-                  margin-bottom: 5px;
-                  display: block;
-              }
-              .form-group input,
-              .form-group select {
-                  width: 100%;
-                  padding: 10px 12px;
-                  font-size: 14px;
-                  border: 1px solid #ccc;
-                  border-radius: 5px;
-                  box-sizing: border-box;
-              }
-              .radio-group {
-                  display: flex;
-                  gap: 10px;
-              }
-              .radio-group input {
-                  margin-top: 4px;
-              }
-              .radio-group label {
-                  font-size: 14px;
-              }
-              .btn {
-                  width: 100%;
-                  background-color: #0056b3;
-                  color: #fff;
-                  border: none;
-                  padding: 12px;
-                  font-size: 16px;
-                  border-radius: 5px;
-                  cursor: pointer;
-                  transition: background-color 0.3s;
-              }
-              .btn:hover {
-                  background-color: #003d80;
-              }
-              .form-section a {
-                  text-decoration: none;
-                  color: #0056b3;
-                  font-weight: bold;
-              }
+            <style>
+                :root {
+                    --primary: #6366f1;
+                    --bg-dark: #0f172a;
+                    --card-bg: rgba(30, 41, 59, 0.7);
+                    --border: rgba(255, 255, 255, 0.1);
+                }
 
-              .container {
-                  max-width: 700px;
-                  margin: 50px auto;
-                  display: flex;
-                  background-color: #fff;
-                  border-radius: 10px;
-                  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-                  overflow: hidden;
-              }
-              .form-section {
-                  flex: 2;
-                  padding: 40px 30px;
-              }
-              .form-section h2 {
-                  font-size: 26px;
-                  color: #0056b3;
-                  margin-bottom: 20px;
-              }
-              .info-section {
-                  flex: 1;
-                  background: linear-gradient(135deg, #0056b3 , #f5f9fa);
-                  padding: 30px 15px;
-                  text-align: center;
-              }
-              .info-section img {
-                  width: 100px;
-                  margin-bottom: 20px;
-              }
+                body {
+                    background-color: var(--bg-dark);
+                    background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop');
+                    background-size: cover;
+                    background-position: center;
+                    height: 100vh;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 0;
+                    font-family: 'Outfit', sans-serif;
+                    color: white;
+                }
 
+                .overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(15, 23, 42, 0.9);
+                    backdrop-filter: blur(10px);
+                    z-index: 1;
+                }
 
-              /* Toggle Password Visibility */
-              .password-toggle {
-                  position: relative;
-              }
-              .password-toggle input {
-                  padding-right: 40px;
-              }
-              .password-toggle .toggle-btn {
-                  position: absolute;
-                  top: 50%;
-                  right: 10px;
-                  transform: translateY(-50%);
-                  cursor: pointer;
-                  font-size: 16px;
-                  color: #aaa;
-              }
-              .password-toggle .toggle-btn:hover {
-                  color: #333;
-              }
-              .logo-container {
-                          box-shadow:  0 8px 15px rgba(256, 308, 261, 5.6);
-                       }
-          </style>
-    <script>
-        let otpSentTime = null;
+                .auth-card {
+                    background: var(--card-bg);
+                    border-radius: 2rem;
+                    width: 500px;
+                    max-width: 95%;
+                    padding: 3.5rem;
+                    border: 1px solid var(--border);
+                    z-index: 2;
+                    text-align: center;
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+                }
 
-        const otpSent = async () => {
-            const email = document.getElementById("email").value;
-            const response = await axios.get("http://localhost:8080/medi_sales/api/sendOtp/" + email);
+                .form-group {
+                    margin-bottom: 2rem;
+                    text-align: left;
+                }
 
-            if (response.data==="OTP Sent Successfully") {
-                document.getElementById("message").innerHTML = "OTP sent successfully! Please check your email.";
-                document.getElementById("otp").disabled = false;
-                document.getElementById("submitOtpBtn").style.display = "block";
-                otpSentTime = new Date();
+                label {
+                    display: block;
+                    margin-bottom: 0.5rem;
+                    color: #94a3b8;
+                    font-size: 0.9rem;
+                }
 
-                document.getElementById("sendOtpBtn").disabled = true;
-                setTimeout(() => {
-                    document.getElementById("sendOtpBtn").disabled = false;
-                }, 60000);
-            } else {
-                document.getElementById("message").innerHTML = "Failed to send OTP. Please try again.";
-            }
-        };
-    </script>
-</head>
-<body>
-    <div class="header">
-        <div>
-            <img src="logo.png" alt="Medi-Sales Logo" style="height: 40px;">
-        </div>
-        <div>
-            <a href="index" class="home-btn">Home</a>
-        </div>
-    </div>
-    <div class="container">
-        <!-- Form Section -->
-        <div class="form-section">
-            <h2>OTP Sign In</h2>
-            <p style="color:green">${valid}</p>
-            <h3 style="color:red">${notFound}</h3>
-            <h3 style="color:red">${msg}</h3>
-            <p>Access Your Account on Marg ERP Cloud</p>
+                input {
+                    width: 100%;
+                    background: rgba(15, 23, 42, 0.5);
+                    border: 1px solid var(--border);
+                    padding: 1rem 1.25rem;
+                    border-radius: 0.75rem;
+                    color: white;
+                    outline: none;
+                    font-size: 1.1rem;
+                    text-align: center;
+                    letter-spacing: 0.1em;
+                    transition: all 0.3s;
+                }
 
-            <form action="sendOtp" method="get" id="otpForm">
-                <div class="form-group">
-                    <label for="email">Registered Email *</label>
-                    <input type="email" id="email" name="email" value="${email}"  required>
+                input:focus {
+                    border-color: var(--primary);
+                    background: rgba(15, 23, 42, 0.8);
+                }
+
+                input:disabled {
+                    opacity: 0.3;
+                    cursor: not-allowed;
+                }
+
+                .btn-auth {
+                    width: 100%;
+                    background: var(--primary);
+                    color: white;
+                    border: none;
+                    padding: 1rem;
+                    border-radius: 0.75rem;
+                    font-weight: 700;
+                    cursor: pointer;
+                    margin-top: 1rem;
+                    transition: all 0.3s;
+                }
+
+                .btn-auth:disabled {
+                    background: #334155;
+                    cursor: not-allowed;
+                }
+
+                .btn-auth:hover:not(:disabled) {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+                }
+
+                .alert {
+                    padding: 1rem;
+                    border-radius: 0.75rem;
+                    margin-bottom: 1.5rem;
+                    font-size: 0.85rem;
+                    display: none;
+                }
+            </style>
+        </head>
+
+        <body>
+            <div class="overlay"></div>
+            <div class="auth-card">
+                <div style="cursor: pointer; margin-bottom: 2.5rem;" onclick="location.href='index'">
+                    <i class="fa-solid fa-flask-vial" style="font-size: 2.5rem; color: var(--primary);"></i>
+                    <h2 style="margin: 0.5rem 0 0; font-weight: 800;">MediSales</h2>
                 </div>
-                <span class="text-center" id="message" style="color:green"></span>
 
-                <div class="form-group">
-                    <label for="otp">Enter OTP:</label>
-                    <input type="number" id="otp" name="otp" disabled required>
+                <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem;">Two-Factor Auth</h2>
+                <p style="color: #94a3b8; margin-bottom: 2.5rem;">Safety first. Enter your registered email to receive
+                    an OTP.</p>
+
+                <div id="statusAlert" class="alert"></div>
+
+                <form action="sendOtp" method="GET" id="otpSubmitForm">
+                    <div class="form-group">
+                        <label>Registered Email</label>
+                        <input type="email" id="email" name="email" value="${email}" style="text-align: left;"
+                            placeholder="admin@medisales.com" required>
+                    </div>
+
+                    <div class="form-group" id="otpGroup" style="display: none;">
+                        <label>Enter 6-Digit OTP</label>
+                        <input type="number" id="otp" name="otp" required maxlength="6" placeholder="••••••">
+                    </div>
+
+                    <button type="button" id="sendOtpBtn" class="btn-auth" onclick="sendOtp()">Generate OTP</button>
+                    <button type="submit" id="submitOtpBtn" class="btn-auth" style="display: none;">Verify & Log
+                        In</button>
+                </form>
+
+                <div style="margin-top: 2rem; color: #94a3b8; font-size: 0.85rem;">
+                    Security check failed? <a href="signin"
+                        style="color: var(--primary); text-decoration: none; font-weight: 600;">Return to Login</a>
                 </div>
-                <button type="submit" id="submitOtpBtn" class="btn" style="display:none;">Submit OTP</button>
-            </form>
+            </div>
 
-            <button id="sendOtpBtn" class="btn btn-primary btn-block" onclick="otpSent()">Send OTP</button>
+            <script>
+                const API_BASE = window.location.origin + '/medi_sales/api';
 
-        </div>
+                const showAlert = (msg, type) => {
+                    const alert = document.getElementById("statusAlert");
+                    alert.textContent = msg;
+                    alert.style.display = "block";
+                    alert.style.background = type === 'success' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)';
+                    alert.style.color = type === 'success' ? '#10b981' : '#ef4444';
+                };
 
-        <div class="info-section">
-            <img src="img.png" alt="Marg ERP On Cloud">
-            <h3>Secure Access</h3>
-            <p>Log in to Marg Cloud to access all your business data, monitor transactions, expenses, and more from anywhere in the world with complete security and ease of use.</p>
-        </div>
-    </div>
+                const sendOtp = async () => {
+                    const email = document.getElementById("email").value;
+                    const btn = document.getElementById("sendOtpBtn");
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 XWORKZ Cloud. All Rights Reserved.</p>
-    </footer>
+                    if (!email) { showAlert("Please enter email first", "error"); return; }
 
-</body>
-</html>
+                    btn.disabled = true;
+                    btn.textContent = "Processing...";
+
+                    try {
+                        const res = await axios.get(`${API_BASE}/sendOtp/${email}`);
+                        if (res.data === "OTP Sent Successfully") {
+                            showAlert("OTP sent successfully to your email!", "success");
+                            document.getElementById("otpGroup").style.display = "block";
+                            document.getElementById("submitOtpBtn").style.display = "block";
+                            btn.style.display = "none";
+                        } else {
+                            showAlert("Failed to send OTP. Account might not exist.", "error");
+                            btn.disabled = false;
+                            btn.textContent = "Generate OTP";
+                        }
+                    } catch (e) {
+                        showAlert("System error. Please try again later.", "error");
+                        btn.disabled = false;
+                        btn.textContent = "Generate OTP";
+                    }
+                };
+            </script>
+        </body>
+
+        </html>

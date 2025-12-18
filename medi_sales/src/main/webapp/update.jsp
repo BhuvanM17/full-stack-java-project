@@ -1,289 +1,268 @@
-<%@ page language="java" contentType="text/html; charset=US-ASCII" pageEncoding="US-ASCII"%>
-<%@ page isELIgnored="false" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Update Profile - Marg ERP Cloud</title>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ page isELIgnored="false" %>
+        <!DOCTYPE html>
+        <html lang="en">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Enterprise Settings - MediSales</title>
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: url('background.jpg') no-repeat center center fixed;
-            background-size: cover;
-            background-color: #0056b3;
-        }
-        .container {
-           max-width: 700px;
-            margin: 30px auto;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
+            <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+                rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        .header {
-            background-color: #0056b3;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-        }
-        .header h1 {
-            font-size: 20px;
-            margin: 0;
-        }
-        .header .home-btn {
-               background-color: #fff;
-                color: #0056b3;
-                padding: 8px 15px;
-                font-size: 14px;
-                font-weight: bold;
-                border-radius: 5px;
-                cursor: pointer;
-                text-decoration: none;
-        }
+            <style>
+                :root {
+                    --primary: #6366f1;
+                    --bg-dark: #0f172a;
+                    --card-glass: rgba(30, 41, 59, 0.7);
+                    --border: rgba(255, 255, 255, 0.1);
+                }
 
-        .header .home-btn:hover {
-                 background-color: #0056b3;
-                 color:white;
-                 border: 2px solid white;
-        }
-
-        footer {
-            background-color: #0056b3;
-            color: #333;
-            text-align: center;
-            padding: 10px 20px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-        }
-        footer p {
-            margin: 0;
-            font-size: 14px;
-        }
-
-        .form-section {
-            flex: 2;
-            padding: 30px 20px;
-        }
-        .form-section h2 {
-            font-size: 26px;
-            color: #006b5d;
-            margin-bottom: 10px;
-        }
-        .form-section p {
-            color: #777;
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            font-size: 14px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-            display: block;
-        }
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px 12px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .radio-group {
-            display: flex;
-            gap: 10px;
-        }
-        .radio-group input {
-            margin-top: 4px;
-        }
-        .radio-group label {
-            font-size: 14px;
-        }
-        .btn {
-            width: 100%;
-            background-color: #0056b3;
-            color: #fff;
-            border: none;
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .btn:hover {
-            background-color: #004f43;
-        }
-        .form-section a {
-            text-decoration: none;
-            color: #006b5d;
-            font-weight: bold;
-        }
-
-        .container {
-                    max-width: 700px;
-                    margin: 50px auto;
+                body {
+                    background-color: var(--bg-dark);
+                    background-image: radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+                    min-height: 100vh;
+                    margin: 0;
+                    font-family: 'Outfit', sans-serif;
+                    color: white;
                     display: flex;
-                    background-color: #fff;
-                    border-radius: 10px;
-                    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-                    overflow: hidden;
+                    flex-direction: column;
                 }
-                .form-section {
-                    flex: 2;
-                    padding: 40px 30px;
+
+                .overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(15, 23, 42, 0.85);
+                    backdrop-filter: blur(8px);
+                    z-index: 1;
                 }
-                .form-section h2 {
-                    font-size: 26px;
-                    color: #006b5d;
-                    margin-bottom: 20px;
+
+                header {
+                    position: relative;
+                    z-index: 2;
+                    padding: 1.5rem 3rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border-bottom: 1px solid var(--border);
                 }
-                .btn {
-                    width: 100%;
-                    background-color:#0056b3;
-                    color: #fff;
-                    border: none;
-                    padding: 12px;
-                    font-size: 16px;
-                    border-radius: 5px;
+
+                .logo {
+                    font-size: 1.5rem;
+                    font-weight: 800;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.75rem;
                     cursor: pointer;
-                    transition: background-color 0.3s;
                 }
-                .btn:hover {
-                    background-color: #0056b2;
-                }
-                .info-section {
+
+                .main-container {
+                    position: relative;
+                    z-index: 2;
                     flex: 1;
-                    background: linear-gradient(135deg, #0056b3 , #f5f9fa);
-                     padding: 30px 15px;
-                    text-align: center;
-                }
-                .info-section img {
-                    width: 100px;
-                    margin-bottom: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 3rem;
                 }
 
-        .password-toggle {
-            position: relative;
-        }
-        .password-toggle input {
-            padding-right: 40px;
-        }
-        .password-toggle .toggle-btn {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            cursor: pointer;
-            font-size: 16px;
-            color: #aaa;
-        }
-        .password-toggle .toggle-btn:hover {
-            color: #333;
-        }
-        .logo-container {
-            box-shadow:  0 8px 15px rgba(256, 308, 261, 5.6);
-        }
-    </style>
+                .settings-card {
+                    background: var(--card-glass);
+                    border: 1px solid var(--border);
+                    border-radius: 2rem;
+                    width: 900px;
+                    max-width: 100%;
+                    display: flex;
+                    overflow: hidden;
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+                }
 
-</head>
-<body>
-    <!-- Header -->
-    <div class="header">
-       <div class="logo-container">
-                  <img src="logo.png" alt="medi-sales Logo" style="height: 40px;">
-              </div>
-               <div class="btn-group">
-        <a href="index" class="home-btn" >Home</a>
-</div>
-    </div>
-    <div class="container">
-        <div class="form-section">
-            <h1>Update Profile</h1>
-            <h3>${Successful}</h3>
-            <form action="updateProfile" method="post">
-                <div class="row">
-                <input type="text" name="id" value="${dto.getId()}" hidden/>
-                    <div class="col-md-6 mb-3">
-                        <label for="companyName" class="form-label">Company Name *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-building"></i></span>
-                            <input type="text" class="form-control" id="companyName" name="companyName" value="${dto.getCompanyName()}" required>
-                        </div>
-                        <div><span style="font-size:0.7rem;color:red">${companyNameError}</span></div>
+                .form-area {
+                    flex: 1.5;
+                    padding: 3.5rem;
+                }
+
+                .info-area {
+                    flex: 1;
+                    background: rgba(15, 23, 42, 0.3);
+                    padding: 3.5rem;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    border-left: 1px solid var(--border);
+                }
+
+                .settings-grid {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 1.5rem;
+                }
+
+                .form-group label {
+                    display: block;
+                    margin-bottom: 0.5rem;
+                    color: #94a3b8;
+                    font-size: 0.85rem;
+                }
+
+                input,
+                select {
+                    width: 100%;
+                    background: rgba(15, 23, 42, 0.5);
+                    border: 1px solid var(--border);
+                    padding: 0.85rem 1.25rem;
+                    border-radius: 0.8rem;
+                    color: white;
+                    outline: none;
+                    transition: all 0.3s;
+                }
+
+                input:focus,
+                select:focus {
+                    border-color: var(--primary);
+                }
+
+                input[readOnly] {
+                    background: rgba(15, 23, 42, 0.2);
+                    color: #64748b;
+                    border-style: dashed;
+                }
+
+                .btn-save {
+                    grid-column: span 2;
+                    background: var(--primary);
+                    color: white;
+                    border: none;
+                    padding: 1rem;
+                    border-radius: 0.8rem;
+                    font-weight: 700;
+                    cursor: pointer;
+                    margin-top: 1rem;
+                    transition: all 0.3s;
+                }
+
+                .btn-save:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+                }
+
+                .btn-back {
+                    color: white;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    font-size: 0.9rem;
+                }
+
+                @media (max-width: 900px) {
+                    .info-area {
+                        display: none;
+                    }
+
+                    .settings-grid {
+                        grid-template-columns: 1fr;
+                    }
+
+                    .btn-save {
+                        grid-column: auto;
+                    }
+                }
+            </style>
+        </head>
+
+        <body>
+            <div class="overlay"></div>
+
+            <header>
+                <div class="logo" onclick="location.href='index'">
+                    <i class="fa-solid fa-flask-vial" style="color: var(--primary);"></i>
+                    MediSales
+                </div>
+                <a href="javascript:history.back()" class="btn-back">
+                    <i class="fa-solid fa-arrow-left"></i> Discard & Return
+                </a>
+            </header>
+
+            <main class="main-container">
+                <div class="settings-card">
+                    <div class="form-area">
+                        <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem;">Enterprise Identity</h2>
+                        <p style="color: #94a3b8; margin-bottom: 2.5rem;">Update your business profile and contact
+                            information.</p>
+
+                        <c:if test="${not empty Successful}">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 1rem; border-radius: 0.8rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 0.75rem;">
+                                <i class="fa-solid fa-circle-check"></i> ${Successful}
+                            </div>
+                        </c:if>
+
+                        <form action="updateProfile" method="POST" class="settings-grid">
+                            <input type="hidden" name="id" value="${dto.id}">
+
+                            <div class="form-group">
+                                <label>Company Name</label>
+                                <input type="text" name="companyName" value="${dto.companyName}" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Business Category</label>
+                                <select name="businessType" required>
+                                    <option value="${dto.businessType}">${dto.businessType}</option>
+                                    <option value="Retail">Retail</option>
+                                    <option value="Wholesale">Wholesale</option>
+                                    <option value="Manufacturer">Manufacturer</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Lead Contact</label>
+                                <input type="text" name="contactPerson" value="${dto.contactPerson}" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Mobile Number</label>
+                                <input type="text" name="mobile" value="${dto.mobile}" required>
+                            </div>
+
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label>Registered Email (Identity)</label>
+                                <input type="email" name="email" value="${dto.email}" readOnly>
+                            </div>
+
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label>HQ Address</label>
+                                <input type="text" name="address" value="${dto.address}" required>
+                            </div>
+
+                            <button type="submit" class="btn-save">Synchronize Profile</button>
+                        </form>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="contactPerson" class="form-label">Contact Person *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-person"></i></span>
-                            <input type="text" class="form-control" id="contactPerson" name="contactPerson" value="${dto.getContactPerson()}" required>
+
+                    <div class="info-area">
+                        <div
+                            style="background: rgba(255,255,255,0.03); padding: 2rem; border-radius: 1.5rem; border: 1px solid var(--border);">
+                            <i class="fa-solid fa-fingerprint"
+                                style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1.5rem;"></i>
+                            <h3 style="margin-bottom: 1rem;">Profile Identity</h3>
+                            <p style="color: #94a3b8; font-size: 0.85rem; line-height: 1.6;">Your company profile is
+                                used for all auto-generated invoices and compliance reports. Keep it up to date for
+                                professional communication.</p>
                         </div>
-                        <div><span style="font-size:0.7rem;color:red">${contactPersonError}</span></div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="businessType" class="form-label">Business Type *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-diagram-2-fill"></i></span>
-                            <select id="businessType" name="businessType"  class="form-select" required>
-                                <option value="${dto.getBusinessType()}">${dto.getBusinessType()}</option>
-                                <option value="Retail">Retail</option>
-                                <option value="Wholesale">Wholesale</option>
-                                <option value="Manufacturer">Manufacturer</option>
-                            </select>
-                        </div>
-                        <div><span style="font-size:0.7rem;color:red">${businessTypeError}</span></div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="mobile" class="form-label">Registered Mobile *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-telephone"></i></span>
-                            <input type="text" class="form-control" id="mobile" name="mobile" value="${dto.getMobile()}"required>
-                        </div>
-                        <div><span style="font-size:0.7rem;color:red">${mobileError}</span></div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="email" class="form-label">Registered Email *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                            <input type="email" class="form-control" id="email" name="email" value="${dto.getEmail()}" readOnly>
-                        </div>
-                        <div><span style="font-size:0.7rem;color:red">${emailError}</span></div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="address" class="form-label">Address *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
-                            <input type="address" class="form-control" id="address" name="address" value="${dto.getAddress()}" required>
-                        </div>
-                        <div><span style="font-size:0.7rem;color:red">${addressError}</span></div>
                     </div>
                 </div>
-                <button type="submit" class="btn">Update Profile</button>
-           </form>
-        </div>
-        <div class="info-section">
-            <img src="img.png" alt="Marg ERP On Cloud">
-            <h3>Access From Anywhere</h3>
-            <p>Enjoy the convenience of 24/7 accessibility to Marg Cloud to monitor your business data, transactions, and expenses, keeping you up-to-date.</p>
-        </div>
-    </div>
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 XWORKZ Cloud. All Rights Reserved.</p>
-    </footer>
-</body>
-</html>
+            </main>
+
+            <footer
+                style="position: relative; z-index: 2; padding: 2rem; text-align: center; color: #64748b; font-size: 0.85rem; border-top: 1px solid var(--border);">
+                Connected via Secure MediSales Tunnel 2.0
+            </footer>
+        </body>
+
+        </html>

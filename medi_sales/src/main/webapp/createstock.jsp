@@ -1,313 +1,322 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page isELIgnored="false" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Create Stock- MEDI-SALES</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <style>
-        /* General Styling */
-        body {
-             font-family: 'Segoe UI Emoji', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: url('background.jpg') no-repeat center center fixed;
-            background-size: cover;
-            background-color: #0056b3;
-        }
-        .container {
-           max-width: 500px;
-            margin: 30px auto;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        /* Header Styling */
-        .header {
-            background-color: #0056b3;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-        }
-        .header h1 {
-            font-size: 20px;
-            margin: 0;
-        }
-        .header .home-btn {
-                                       background-color: #fff;        /* White background */
-                                       color: #0056b3;                  /* Blue border to match the text color */
-                                       padding: 8px 15px;             /* Padding for button size */
-                                       font-size: 14px;               /* Font size */
-                                       font-weight: bold;             /* Bold text */
-                                       border-radius: 5px;            /* Rounded corners */
-                                       cursor: pointer;              /* Pointer cursor on hover */
-                                    text-decoration: none;
-                                   }
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ page isELIgnored="false" %>
+        <!DOCTYPE html>
+        <html lang="en">
 
-                            .header .home-btn:hover {
-                                background-color: #0056b3;
-                                color:white;
-                                 border: 2px solid white;
-                            }
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Create Stock - MediSales</title>
 
+            <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+                rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        /* Footer Styling */
-        footer {
-            background-color: #0056b3;
-            color: #333;
-            text-align: center;
-            padding: 10px 20px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-        }
-        footer p {
-            margin: 0;
-            font-size: 14px;
-        }
+            <style>
+                :root {
+                    --primary: #6366f1;
+                    --bg-dark: #0f172a;
+                    --card-glass: rgba(30, 41, 59, 0.7);
+                    --border: rgba(255, 255, 255, 0.1);
+                }
 
-        /* Form Section */
-        .form-section {
-            flex: 2;
-            padding: 30px 20px;
-        }
-        .form-section h2 {
-            font-size: 26px;
-            color: #1d1ef2;
-            margin-bottom: 10px;
-        }
-        .form-section p {
-            color: #777;
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            font-size: 14px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-            display: block;
-        }
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px 12px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .radio-group {
-            display: flex;
-            gap: 10px;
-        }
-        .radio-group input {
-            margin-top: 4px;
-        }
-        .radio-group label {
-            font-size: 14px;
-        }
-        .btn {
-            width: 100%;
-            background-color: #0056b3;
-            color: #fff;
-            border: none;
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .btn:hover {
-            background-color: #004f43;
-        }
-        .form-section a {
-            text-decoration: none;
-            color: #006b5d;
-            font-weight: bold;
-        }
-
-        .container {
-                    max-width: 700px;
-                    margin: 50px auto;
+                body {
+                    background-color: var(--bg-dark);
+                    background-image: url('https://images.unsplash.com/photo-1587854692152-cbe660dbbb88?q=80&w=2069&auto=format&fit=crop');
+                    background-size: cover;
+                    background-position: center;
+                    min-height: 100vh;
+                    margin: 0;
+                    font-family: 'Outfit', sans-serif;
+                    color: white;
                     display: flex;
-                    background-color: #fff;
-                    border-radius: 10px;
-                    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-                    overflow: hidden;
+                    flex-direction: column;
                 }
-                .form-section {
-                    flex: 2;
-                    padding: 40px 30px;
+
+                .overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(15, 23, 42, 0.85);
+                    backdrop-filter: blur(10px);
+                    z-index: 1;
                 }
-                .form-section h2 {
-                    font-size: 26px;
-                    color: #006b5d;
-                    margin-bottom: 20px;
+
+                header {
+                    position: relative;
+                    z-index: 2;
+                    padding: 1.5rem 3rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border-bottom: 1px solid var(--border);
                 }
-                .btn {
-                    width: 100%;
-                    background-color:#0056b3;
-                    color: #fff;
-                    border: none;
-                    padding: 12px;
-                    font-size: 16px;
-                    border-radius: 5px;
+
+                .logo {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.75rem;
+                    font-size: 1.5rem;
+                    font-weight: 800;
                     cursor: pointer;
-                    transition: background-color 0.3s;
                 }
-                .btn:hover {
-                    background-color: #0056b2;
-                }
-                .info-section {
+
+                .main-container {
+                    position: relative;
+                    z-index: 2;
                     flex: 1;
-                    background: linear-gradient(135deg, #0056b3 , #f5f9fa);
-                     padding: 30px 15px;
-                    text-align: center;
-                }
-                .info-section img {
-                    width: 100px;
-                    margin-bottom: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 3rem;
                 }
 
-        /* Toggle Password Visibility */
-        .password-toggle {
-            position: relative;
-        }
-        .password-toggle input {
-            padding-right: 40px;
-        }
-        .password-toggle .toggle-btn {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            cursor: pointer;
-            font-size: 16px;
-            color: #aaa;
-        }
-        .password-toggle .toggle-btn:hover {
-            color: #333;
-             cursor: pointer;
-        }
-.logo-container {
-            box-shadow:  0 8px 15px rgba(256, 308, 261, 5.6);
-         }
-    </style>
+                .stock-card {
+                    background: var(--card-glass);
+                    border: 1px solid var(--border);
+                    border-radius: 2rem;
+                    width: 1000px;
+                    max-width: 100%;
+                    display: flex;
+                    overflow: hidden;
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+                }
 
+                .form-area {
+                    flex: 1.5;
+                    padding: 3rem;
+                }
 
-</head>
-<body>
-    <!-- Header -->
-   <div class="header">
-       <div class="logo-container">
-                  <img src="logo.png" alt="medi-sales Logo" style="height: 40px;">
-              </div>
-               <div class="btn-group">
-          <button class="home-btn" onclick="window.history.back();">Back</button>
-        </div>
-    </div>
+                .info-area {
+                    flex: 1;
+                    background: rgba(15, 23, 42, 0.4);
+                    padding: 3rem;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    border-left: 1px solid var(--border);
+                }
 
-    <div class="container">
-        <div class="form-section">
-            <h2>Create Stock</h2>
-            <p>Register Your Product on MEDI-SALES Cloud</p>
-            <form action="stock" method="post" >
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="productCompany" class="form-label">Product Company *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-building"></i></span>
-                            <input type="text" class="form-control" id="productCompany" name="productCompany" required>
+                .form-grid {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 1.5rem;
+                }
+
+                .form-group label {
+                    display: block;
+                    margin-bottom: 0.5rem;
+                    color: #94a3b8;
+                    font-size: 0.85rem;
+                }
+
+                .input-wrapper {
+                    position: relative;
+                }
+
+                .input-wrapper i {
+                    position: absolute;
+                    left: 1rem;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: var(--primary);
+                }
+
+                input {
+                    width: 100%;
+                    background: rgba(15, 23, 42, 0.6);
+                    border: 1px solid var(--border);
+                    padding: 0.75rem 1rem 0.75rem 2.8rem;
+                    border-radius: 0.8rem;
+                    color: white;
+                    outline: none;
+                    transition: all 0.3s;
+                }
+
+                input:focus {
+                    border-color: var(--primary);
+                    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+                }
+
+                .btn-submit {
+                    grid-column: span 2;
+                    background: var(--primary);
+                    color: white;
+                    border: none;
+                    padding: 1rem;
+                    border-radius: 0.8rem;
+                    font-weight: 700;
+                    cursor: pointer;
+                    margin-top: 1rem;
+                    transition: all 0.3s;
+                }
+
+                .btn-submit:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+                }
+
+                .btn-back {
+                    color: white;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    font-weight: 500;
+                    transition: opacity 0.3s;
+                }
+
+                .btn-back:hover {
+                    opacity: 0.8;
+                }
+
+                @media (max-width: 900px) {
+                    .info-area {
+                        display: none;
+                    }
+
+                    .form-grid {
+                        grid-template-columns: 1fr;
+                    }
+
+                    .btn-submit {
+                        grid-column: auto;
+                    }
+
+                    .main-container {
+                        padding: 1.5rem;
+                    }
+                }
+            </style>
+        </head>
+
+        <body>
+            <div class="overlay"></div>
+
+            <header>
+                <div class="logo" onclick="location.href='index'">
+                    <i class="fa-solid fa-flask-vial" style="color: var(--primary);"></i>
+                    MediSales
+                </div>
+                <a href="javascript:history.back()" class="btn-back">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Fleet
+                </a>
+            </header>
+
+            <main class="main-container">
+                <div class="stock-card">
+                    <div class="form-area">
+                        <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Create Stock</h2>
+                        <p style="color: #94a3b8; margin-bottom: 2.5rem;">Register new products to your cloud inventory.
+                        </p>
+
+                        <c:if test="${not empty success}">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 1rem; border-radius: 0.8rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 0.75rem;">
+                                <i class="fa-solid fa-circle-check"></i> ${success}
+                            </div>
+                        </c:if>
+
+                        <form action="stock" method="post" class="form-grid">
+                            <div class="form-group">
+                                <label>Product Company</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-building"></i>
+                                    <input type="text" name="productCompany" placeholder="e.g. Pfizer" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Product Name</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-box"></i>
+                                    <input type="text" name="productName" placeholder="e.g. Paracetamol" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>MRP (₹)</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                                    <input type="text" name="mrp" placeholder="0.00" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Pack Type</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-boxes-stacked"></i>
+                                    <input type="text" name="pack" placeholder="e.g. 10x10 Strips" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>MFG Date</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-calendar-day"></i>
+                                    <input type="date" name="mfgDate" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>EXP Date</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-calendar-xmark"></i>
+                                    <input type="date" name="expDate" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Initial Quantity</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-calculator"></i>
+                                    <input type="number" name="quantity" placeholder="0" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Purchase Rate (₹)</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-tag"></i>
+                                    <input type="text" name="rate" placeholder="0.00" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>GST (%)</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-percent"></i>
+                                    <input type="text" name="gst" placeholder="18" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Discount (%)</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                                    <input type="text" name="discount" placeholder="0" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-submit">Initialize Product Entry</button>
+                        </form>
+                    </div>
+                    <div class="info-area">
+                        <i class="fa-solid fa-shield-virus"
+                            style="font-size: 3rem; color: var(--primary); margin-bottom: 2rem;"></i>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Inventory Safety</h3>
+                        <p style="color: #94a3b8; line-height: 1.6; font-size: 0.9rem;">Adding items to the registry
+                            enables real-time tracking, automatic expiry alerts, and smart reordering predictions.</p>
+
+                        <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem;">
+                            <div style="display: flex; gap: 0.75rem; align-items: center; font-size: 0.85rem;">
+                                <i class="fa-solid fa-check" style="color: #10b981;"></i> Cloud Sync Enabled
+                            </div>
+                            <div style="display: flex; gap: 0.75rem; align-items: center; font-size: 0.85rem;">
+                                <i class="fa-solid fa-check" style="color: #10b981;"></i> HSN Integration
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="productName" class="form-label">Product Name *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-box"></i></span>
-                            <input type="text" class="form-control" id="productName" name="productName" required>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="mrp" class="form-label">MRP *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
-                            <input type="text" class="form-control" id="mrp" name="mrp" required>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="pack" class="form-label">Pack *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-boxes"></i></span>
-                            <input type="text" class="form-control" id="pack" name="pack" required>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="mfgDate" class="form-label">Manufacturing Date *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-calendar"></i></span>
-                            <input type="date" class="form-control" id="mfgDate" name="mfgDate" required>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="expDate" class="form-label">Expiration Date *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-calendar-x"></i></span>
-                            <input type="date" class="form-control" id="expDate" name="expDate" required>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="quantity" class="form-label">Quantity *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-boxes"></i></span>
-                            <input type="number" class="form-control" id="quantity" name="quantity" required>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="rate" class="form-label">Rate *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
-                            <input type="text" class="form-control" id="rate" name="rate" required>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                         <label for="gst" class="form-label">Gst *</label>
-                         <div class="input-group">
-                             <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
-                              <input type="text" class="form-control" id="rate" name="gst" required>
-                         </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="discount" class="form-label">Discount *</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-percent"></i></span>
-                            <input type="text" class="form-control" id="discount" name="discount" required>
-                             </div>
                     </div>
                 </div>
-                <button type="submit" id="submit-btn" class="btn">Register Product</button>
-            </form>
-        </div>
-        <div class="info-section">
-                    <img src="img.png" alt="Marg ERP On Cloud">
-                    <h3>Secure Access</h3>
-                   <p>Effortlessly manage and create stock items on Marg Cloud, track inventory levels, monitor stock movements, and streamline your business operations with real-time updates and complete control over your stock data.</p>   </div>
-    </div>
-<p>${success}</p>
-    <footer>
-        <p>&copy; 2025 XWORKZ Cloud. All Rights Reserved.</p>
-    </footer>
+            </main>
 
-</body>
-</html>
+            <footer
+                style="position: relative; z-index: 2; padding: 2rem; text-align: center; color: #64748b; font-size: 0.85rem; border-top: 1px solid var(--border);">
+                &copy; 2025 MediSales Enterprise. Powered by XWORKZ Cloud.
+            </footer>
+        </body>
+
+        </html>
