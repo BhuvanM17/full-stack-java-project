@@ -23,6 +23,7 @@ This project is configured for **PostgreSQL**, allowing you to host the App and 
   - `DB_PASSWORD`: (From your Render DB details).
   - `MAIL_USERNAME`: Your Gmail.
   - `MAIL_PASSWORD`: Your Gmail App Password.
+- Render will automatically detect the `Dockerfile` at the root of your repository.
 - Click **Deploy Web Service**.
 
 ## 🛠️ Local Development
