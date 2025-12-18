@@ -53,11 +53,14 @@ public class AjaxServiceImpl implements AjaxService {
        if(userEntity.getEmail()!=null){
            Random random = new Random();
            Integer otp = random.nextInt(9999);
-           log.info("otp is {}",otp);
-           mailService.sendRegistrationMessage("OTP Verification","Dear"+ userEntity.getContactPerson()+" YOUR OTP FOR VERIFICATION ::  "+otp,email);
+           log.info("###################################################");
+           log.info("OTP FOR {} IS :: {}", email, otp);
+           log.info("###################################################");
+           
+           // mailService.sendRegistrationMessage("OTP Verification","Dear"+ userEntity.getContactPerson()+" YOUR OTP FOR VERIFICATION ::  "+otp,email);
+           
            userEntity.setOtp(passwordEncoder.encode(otp.toString()));
            userEntity=repository.update(userEntity);
-           log.info("otp------------------{}",userEntity.getOtp());
            return "OTP Sent Successfully";
        }else return "User not found";
     }

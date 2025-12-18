@@ -36,7 +36,7 @@ public class MediSalesServiceImpl implements MediSalesService{
 
 
             repository.save(entity);
-            mailService.sendRegistrationMessage("Registration", "Thank you for registering welcome to our page" + userDto.getContactPerson(), userDto.getEmail());
+            // mailService.sendRegistrationMessage("Registration", "Thank you for registering welcome to our page" + userDto.getContactPerson(), userDto.getEmail());
             return true;
         }
     }

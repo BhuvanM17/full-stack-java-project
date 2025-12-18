@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class MailServiceImpl implements MailService{
 
+    /*
     @Autowired
     JavaMailSender javaMailSender;
+    */
 
     @Override
     public boolean sendRegistrationMessage(String subject, String body, String email) {
+        /*
         MimeMessagePreparator preparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom(Constants.FROM_EMAIL.getPath(),"bhuvan");
@@ -23,6 +26,8 @@ public class MailServiceImpl implements MailService{
             messageHelper.setText(body);
         };
         javaMailSender.send(preparator);
+        */
+        System.out.println("Mail sending is currently disabled. Would have sent to: " + email);
         return true;
     }
 }

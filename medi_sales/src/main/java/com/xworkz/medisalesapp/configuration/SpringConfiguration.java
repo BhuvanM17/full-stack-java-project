@@ -111,6 +111,7 @@ public class SpringConfiguration implements WebMvcConfigurer {
     public MultipartResolver multipartResolver() {
         return new StandardServletMultipartResolver();
     }
+/*
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -124,10 +125,16 @@ public class SpringConfiguration implements WebMvcConfigurer {
         properties.put("mail.transport.protocol", "smtp");
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.starttls.required", "true");
+        properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        properties.put("mail.smtp.connectiontimeout", "5000");
+        properties.put("mail.smtp.timeout", "5000");
+        properties.put("mail.smtp.writetimeout", "5000");
         properties.put("mail.debug", "true");
 
         return mailSender;
     }
+*/
 
     @Bean
     public PasswordEncoder passwordEncoder(){
