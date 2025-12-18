@@ -50,12 +50,23 @@ public class SpringConfiguration implements WebMvcConfigurer {
         dataSource.setPassword(System.getenv("DB_PASSWORD"));
         
         String dbUrl = System.getenv("DB_URL");
-        if (dbUrl != null && dbUrl.startsWith("postgres://")) {
-            dbUrl = dbUrl.replace("postgres://", "jdbc:postgresql://");
-        } else if (dbUrl != null && dbUrl.startsWith("postgresql://")) {
-            dbUrl = dbUrl.replace("postgresql://", "jdbc:postgresql://");
-        } else if (dbUrl != null && !dbUrl.startsWith("jdbc:")) {
-            dbUrl = "jdbc:postgresql://" + dbUrl;
+        if (dbUrl != null) {
+            // Remove 'postgres://' or 'postgresql://' and replace with 'jdbc:postgresql://'
+            if (dbUrl.startsWith("postgres://")) {
+                dbUrl = dbUrl.replace("postgres://", "jdbc:postgresql://");
+            } else if (dbUrl.startsWith("postgresql://")) {
+                dbUrl = dbUrl.replace("postgresql://", "jdbc:postgresql://");
+            } else if (!dbUrl.startsWith("jdbc:")) {
+                dbUrl = "jdbc:postgresql://" + dbUrl;
+            }
+
+            // If the URL contains credentials (user:pass@host), strip them for the JDBC URL
+            // Example: jdbc:postgresql://user:pass@host:port/db -> jdbc:postgresql://host:port/db
+            if (dbUrl.contains("@")) {
+                int startIndex = dbUrl.indexOf("://") + 3;
+                int atIndex = dbUrl.indexOf("@");
+                dbUrl = dbUrl.substring(0, startIndex) + dbUrl.substring(atIndex + 1);
+            }
         }
         
         dataSource.setUrl(dbUrl);
