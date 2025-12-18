@@ -1,144 +1,286 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Home - XWORKZ Pharm Cloud</title>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ page isELIgnored="false" %>
+        <!DOCTYPE html>
+        <html lang="en">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: url('background.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #333;
-        }
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>MediSales - Premium Pharma ERP</title>
 
-        .header {
-            background-color: #0056b3;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-        }
+            <!-- Fonts & Icons -->
+            <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+                rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        .header h1 {
-            font-size: 20px;
-            margin: 0;
-            padding:10px;
-        }
+            <style>
+                :root {
+                    --primary: #6366f1;
+                    --primary-dark: #4f46e5;
+                    --secondary: #ec4899;
+                    --bg-dark: #0f172a;
+                    --card-glass: rgba(30, 41, 59, 0.7);
+                    --border: rgba(255, 255, 255, 0.1);
+                }
 
-        .header .home-btn {
-                                       background-color: #fff;        /* White background */
-                                       color: #0056b3;                  /* Blue border to match the text color */
-                                       padding: 8px 15px;             /* Padding for button size */
-                                       font-size: 14px;               /* Font size */
-                                       font-weight: bold;             /* Bold text */
-                                       border-radius: 5px;            /* Rounded corners */
-                                       cursor: pointer;              /* Pointer cursor on hover */
-                                    text-decoration: none;
-                                   }
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                    font-family: 'Outfit', sans-serif;
+                }
 
-                            .header .home-btn:hover {
-                                background-color: #0056b3;
-                                color:white;
-                                 border: 2px solid black;
-                            }
+                body {
+                    background-color: var(--bg-dark);
+                    color: #f8fafc;
+                    overflow-x: hidden;
+                    background-image:
+                        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                        radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.1) 0px, transparent 50%);
+                    min-height: 100vh;
+                }
 
-        footer {
-            background-color: rgba(245, 249, 250, 0.9);
-            color: #333;
-            text-align: center;
-            padding: 10px 20px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-        }
+                /* Navbar */
+                nav {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 1.5rem 5%;
+                    backdrop-filter: blur(10px);
+                    position: fixed;
+                    width: 100%;
+                    top: 0;
+                    z-index: 1000;
+                    border-bottom: 1px solid var(--border);
+                }
 
-        footer p {
-            margin: 0;
-            font-size: 14px;
-        }
+                .logo {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.75rem;
+                    font-size: 1.5rem;
+                    font-weight: 700;
+                    background: linear-gradient(to right, #818cf8, #f472b6);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
 
-        .main-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: calc(100vh - 100px); /* Subtract header and footer height */
-        }
+                .nav-btns {
+                    display: flex;
+                    gap: 1.5rem;
+                }
 
-        .container {
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            padding: 50px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Optional for better design */
-        }
+                .btn {
+                    padding: 0.75rem 1.5rem;
+                    border-radius: 0.75rem;
+                    font-weight: 600;
+                    text-decoration: none;
+                    transition: all 0.3s ease;
+                    font-size: 0.9rem;
+                }
 
-        h2 {
-            font-size: 36px;
-            color: #0056b3;
-        }
+                .btn-outline {
+                    border: 1px solid var(--border);
+                    color: white;
+                }
 
-        p {
-            font-size: 18px;
-            color: #0056b3;
-            margin: 20px 0;
-        }
+                .btn-outline:hover {
+                    background: rgba(255, 255, 255, 0.05);
+                    border-color: var(--primary);
+                }
 
+                .btn-primary {
+                    background: var(--primary);
+                    color: white;
+                    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+                }
 
+                .btn-primary:hover {
+                    background: var(--primary-dark);
+                    transform: translateY(-2px);
+                }
 
-        .btn {
-            display: inline-block;
-            background-color: #0056b3;
-            color: #fff;
-            text-decoration: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            margin: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            border:2px solid white;
-        }
+                /* Hero Section */
+                .hero {
+                    padding: 10rem 5% 5rem;
+                    display: grid;
+                    grid-template-columns: 1.2fr 1fr;
+                    align-items: center;
+                    gap: 4rem;
+                    max-width: 1400px;
+                    margin: 0 auto;
+                }
 
-        .btn:hover {
-            background-color: white;
-            color:#0056b3;
-             box-shadow: 0 4px 10px rgba(255, 255, 255, 0.6);
-        }
-        .logo-container {
-            box-shadow:  0 8px 15px rgba(256, 308, 261, 5.6);
-         }
-    </style>
-</head>
-<body>
+                .hero-content h1 {
+                    font-size: 4rem;
+                    line-height: 1.1;
+                    margin-bottom: 1.5rem;
+                    font-weight: 800;
+                }
 
-    <div class="header">
-       <div class="logo-container">
-           <img src="logo.png" alt="medi-sales Logo" style="height: 40px;">
-       </div>
-        <div class="btn-group">
-            <a href="signin" class="btn">Sign In</a>
-            <a href="signup" class="btn">Sign Up</a>
-        </div>
-    </div>
+                .gradient-text {
+                    background: linear-gradient(to right, #818cf8, #f472b6);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="container">
-            <h2>Welcome to Medi-sales Pharm Cloud</h2>
-            <p>Manage your business with ease, anytime and anywhere.</p>
+                .hero-content p {
+                    font-size: 1.25rem;
+                    color: #94a3b8;
+                    margin-bottom: 2.5rem;
+                    line-height: 1.6;
+                }
 
-        </div>
-    </div>
+                .hero-image {
+                    position: relative;
+                }
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 XWORKZ Cloud. All Rights Reserved.</p>
-    </footer>
-</body>
-</html>
+                .image-card {
+                    width: 100%;
+                    height: 500px;
+                    background: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop') center/cover;
+                    border-radius: 2rem;
+                    border: 1px solid var(--border);
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+                }
+
+                .floating-stats {
+                    position: absolute;
+                    background: var(--card-glass);
+                    backdrop-filter: blur(12px);
+                    padding: 1.5rem;
+                    border-radius: 1.25rem;
+                    border: 1px solid var(--border);
+                    bottom: -2rem;
+                    left: -2rem;
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                }
+
+                /* Features Section */
+                .features {
+                    padding: 5rem 5%;
+                    max-width: 1400px;
+                    margin: 0 auto;
+                }
+
+                .feature-grid {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 2rem;
+                }
+
+                .feature-box {
+                    background: var(--card-glass);
+                    padding: 2.5rem;
+                    border-radius: 1.5rem;
+                    border: 1px solid var(--border);
+                    transition: all 0.3s ease;
+                }
+
+                .feature-box:hover {
+                    border-color: var(--primary);
+                    transform: translateY(-5px);
+                }
+
+                .feature-box i {
+                    font-size: 2rem;
+                    color: var(--primary);
+                    margin-bottom: 1.5rem;
+                }
+
+                footer {
+                    padding: 4rem 5%;
+                    text-align: center;
+                    border-top: 1px solid var(--border);
+                    color: #64748b;
+                    font-size: 0.9rem;
+                }
+
+                @media (max-width: 968px) {
+                    .hero {
+                        grid-template-columns: 1fr;
+                        text-align: center;
+                    }
+
+                    .hero-content h1 {
+                        font-size: 3rem;
+                    }
+
+                    .feature-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+            </style>
+        </head>
+
+        <body>
+
+            <nav>
+                <div class="logo">
+                    <i class="fa-solid fa-flask-vial"></i>
+                    MediSales
+                </div>
+                <div class="nav-btns">
+                    <a href="signin" class="btn btn-outline">Sign In</a>
+                    <a href="signup" class="btn btn-primary">Get Started</a>
+                </div>
+            </nav>
+
+            <main>
+                <section class="hero">
+                    <div class="hero-content">
+                        <h1>Next-Gen <span class="gradient-text">Pharma ERP</span> for Modern Business</h1>
+                        <p>Streamline your medical sales, inventory, and billing with our enterprise-grade cloud
+                            platform. Built for global pharmaceutical standards.</p>
+                        <div style="display: flex; gap: 1rem;">
+                            <a href="signup" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1rem;">Launch
+                                Console</a>
+                            <a href="#" class="btn btn-outline" style="padding: 1rem 2rem; font-size: 1rem;">Watch
+                                Demo</a>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <div class="image-card"></div>
+                        <div class="floating-stats">
+                            <div style="display: flex; gap: 1rem; align-items: center;">
+                                <i class="fa-solid fa-chart-line" style="color: #10b981; font-size: 1.5rem;"></i>
+                                <div>
+                                    <div style="font-weight: 700; font-size: 1.25rem;">+124%</div>
+                                    <div style="font-size: 0.75rem; color: #94a3b8;">Sales Growth</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="features">
+                    <div class="feature-grid">
+                        <div class="feature-box">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                            <h3>Smart Inventory</h3>
+                            <p style="color: #94a3b8; margin-top: 1rem;">Real-time stock tracking with automated
+                                low-stock alerts and expiration monitoring.</p>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                            <h3>Compliance Billing</h3>
+                            <p style="color: #94a3b8; margin-top: 1rem;">Generate GST-ready invoices with one click.
+                                Digital signatures and secure PDF exports.</p>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <h3>Bank-Level Security</h3>
+                            <p style="color: #94a3b8; margin-top: 1rem;">End-to-end encryption for your sensitive
+                                business data. Secure access anywhere in the world.</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <footer>
+                <p>&copy; 2025 MediSales ERP. Modern Cloud Solutions for Pharma Professionals.</p>
+            </footer>
+
+        </body>
+
+        </html>

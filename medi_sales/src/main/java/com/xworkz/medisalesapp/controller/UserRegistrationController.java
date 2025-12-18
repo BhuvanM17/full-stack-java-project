@@ -28,6 +28,11 @@ public class UserRegistrationController  {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private com.xworkz.medisalesapp.service.DistributerService distributerService;
+    @GetMapping("/")
+    public String welcome() {
+        return "signin";
+    }
+
     @GetMapping("index")
     public String home() {
         return "index";
@@ -47,7 +52,7 @@ public class UserRegistrationController  {
     }
 
     @PostMapping("registration")
-    public String registration(@Valid UserDto userDto,BindingResult result, Model model ,BindingResult bindingResult){
+    public String registration(@Valid UserDto userDto, BindingResult bindingResult, Model model){
         log.info("Processing signup form...");
             boolean hasErrors = bindingResult.hasErrors();
 
@@ -216,5 +221,9 @@ public class UserRegistrationController  {
         return "createstock";
         }
 
-
+    @GetMapping("logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "signin";
+    }
 }

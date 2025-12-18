@@ -1,213 +1,152 @@
-<%@ page language="java" contentType="text/html; charset=US-ASCII" pageEncoding="US-ASCII"%>
-<%@ page isELIgnored="false" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Forgot Password - Marg ERP Cloud</title>
-    <style>
-        /* General Styling */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: url('background.jpg') no-repeat center center fixed;
-            background-size: cover;
-            background-color: #f8f9fa;
-        }
-        .container {
-            max-width: 700px;
-            margin: 30px auto;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        /* Header Styling */
-        .header {
-            background-color: #0056b3;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-        }
-        .header h1 {
-            font-size: 20px;
-            margin: 0;
-        }
-        .header .home-btn {
-            background-color: #fff;
-            color: #0056b3;
-            padding: 8px 15px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .header .home-btn:hover {
-            background-color: #0056b3;
-            color:white;
-            border: 2px solid white;
-        }
-        /* Footer Styling */
-        footer {
-            background-color: #f5f9fa;
-            color: #333;
-            text-align: center;
-            padding: 10px 20px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-        }
-        footer p {
-            margin: 0;
-            font-size: 14px;
-        }
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ page isELIgnored="false" %>
+        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+            <!DOCTYPE html>
+            <html lang="en">
 
-        /* Form Section */
-        .form-section {
-            flex: 2;
-            padding: 30px 20px;
-        }
-        .form-section h2 {
-            font-size: 26px;
-            color: #0056b3;
-            margin-bottom: 10px;
-        }
-        .form-section p {
-            color: #777;
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            font-size: 14px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-            display: block;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 10px 12px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .btn {
-            width: 100%;
-            background-color: #0056b3;
-            color: #fff;
-            border: none;
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .btn:hover {
-            background-color: #003d80;
-        }
-        .form-section a {
-            text-decoration: none;
-            color: #0056b3;
-            font-weight: bold;
-        }
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Reset Password - MediSales</title>
+                <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+                    rel="stylesheet">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        .container {
-            max-width: 700px;
-            margin: 50px auto;
-            display: flex;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
+                <style>
+                    :root {
+                        --primary: #6366f1;
+                        --bg-dark: #0f172a;
+                        --card-bg: rgba(30, 41, 59, 0.7);
+                        --border: rgba(255, 255, 255, 0.1);
+                    }
 
-        .info-section {
-            flex: 1;
-            background: linear-gradient(135deg, #e0f3ff, #f5f9fa);
-            padding: 30px 15px;
-            text-align: center;
-        }
-        .info-section img {
-            width: 100px;
-            margin-bottom: 20px;
-        }
+                    body {
+                        background-color: var(--bg-dark);
+                        background-image: url('https://images.unsplash.com/photo-1579444230661-ca316dd25d2c?q=80&w=2070&auto=format&fit=crop');
+                        background-size: cover;
+                        background-position: center;
+                        height: 100vh;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin: 0;
+                        font-family: 'Outfit', sans-serif;
+                        color: white;
+                    }
 
-        /* Custom Styling for the Reset Password Form */
-        .form-row {
-            margin-bottom: 20px;
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <div class="header">
-        <div class="logo-container">
-            <img src="logo.png" alt="medi-sales Logo" style="height: 40px;">
-        </div>
-        <div class="btn-group">
-            <a href="index" class="home-btn">Home</a>
-        </div>
-    </div>
+                    .overlay {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background: rgba(15, 23, 42, 0.85);
+                        backdrop-filter: blur(8px);
+                        z-index: 1;
+                    }
 
-    <!-- Container -->
-    <div class="container">
-        <!-- Form Section -->
-        <div class="form-section">
-            <h2>Forgot Password</h2>
-            <h3>${valid}<h3><h3>${Invalid}</h3>
-            <p>Enter your registered email address to receive a password reset link.</p>
-            <form action="forget" >
+                    .auth-card {
+                        background: var(--card-bg);
+                        border-radius: 2rem;
+                        width: 500px;
+                        max-width: 95%;
+                        padding: 3rem;
+                        border: 1px solid var(--border);
+                        z-index: 2;
+                        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+                    }
 
-                <!-- Email Input for Password Reset -->
-                <div class="form-group">
-                    <label for="email">Registered Email *</label>
-                    <input type="email" id="email" name="email" value="${email}"required>
-                </div>
+                    .form-group {
+                        margin-bottom: 1.5rem;
+                    }
 
-                <!-- New Password Input -->
-                <div class="form-row">
-                    <div class="form-group col-md-12">
-                        <label for="newPassword">New Password:</label>
-                        <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                    label {
+                        display: block;
+                        margin-bottom: 0.5rem;
+                        color: #94a3b8;
+                        font-size: 0.9rem;
+                    }
+
+                    input {
+                        width: 100%;
+                        background: rgba(15, 23, 42, 0.5);
+                        border: 1px solid var(--border);
+                        padding: 0.85rem 1.25rem;
+                        border-radius: 0.75rem;
+                        color: white;
+                        outline: none;
+                        transition: border-color 0.3s;
+                    }
+
+                    input:focus {
+                        border-color: var(--primary);
+                    }
+
+                    .btn-auth {
+                        width: 100%;
+                        background: var(--primary);
+                        color: white;
+                        border: none;
+                        padding: 1rem;
+                        border-radius: 0.75rem;
+                        font-weight: 700;
+                        cursor: pointer;
+                        margin-top: 1rem;
+                        transition: all 0.3s;
+                    }
+
+                    .btn-auth:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+                    }
+
+                    .alert-error {
+                        background: rgba(239, 68, 68, 0.1);
+                        color: #ef4444;
+                        padding: 1rem;
+                        border-radius: 0.75rem;
+                        margin-bottom: 1.5rem;
+                        font-size: 0.85rem;
+                    }
+                </style>
+            </head>
+
+            <body>
+                <div class="overlay"></div>
+                <div class="auth-card">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; cursor: pointer;"
+                        onclick="location.href='index'">
+                        <i class="fa-solid fa-flask-vial" style="font-size: 2rem; color: var(--primary);"></i>
+                        <h2 style="margin: 0; font-weight: 800;">MediSales</h2>
+                    </div>
+
+                    <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">Reset Password</h2>
+
+                    <c:if test="${not empty Invalid}">
+                        <div class="alert-error"><i class="fa-solid fa-triangle-exclamation"></i> ${Invalid}</div>
+                    </c:if>
+
+                    <form action="forget">
+                        <div class="form-group">
+                            <label>Registered Email</label>
+                            <input type="email" name="email" value="${email}" placeholder="john@company.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <input type="password" name="newPassword" placeholder="••••••••" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" name="confirmPassword" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn-auth">Update Password</button>
+                    </form>
+
+                    <div style="margin-top: 2rem; text-align: center; color: #94a3b8; font-size: 0.9rem;">
+                        Remember your credentials? <a href="signin"
+                            style="color: var(--primary); text-decoration: none; font-weight: 600;">Back to Sign In</a>
                     </div>
                 </div>
+            </body>
 
-                <!-- Confirm Password Input -->
-                <div class="form-row">
-                    <div class="form-group col-md-12">
-                        <label for="confirmPassword">Confirm Password:</label>
-                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-                    </div>
-                </div>
-
-                <!-- Submit Button -->
-                <button type="submit" class="btn btn-success btn-block">Reset Password</button>
-
-                <!-- Back to Login Link -->
-                <p>Remember your password? <a href="login.jsp">Login</a></p>
-            </form>
-        </div>
-
-        <!-- Info Section -->
-        <div class="info-section">
-            <img src="img.png" alt="Marg ERP On Cloud">
-            <h3>Secure Access</h3>
-            <p>Log in to Marg Cloud to access all your business data, monitor transactions, expenses, and more from anywhere in the world with complete security and ease of use.</p>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 XWORKZ Cloud. All Rights Reserved.</p>
-    </footer>
-</body>
-</html>
+            </html>
