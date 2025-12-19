@@ -24,12 +24,65 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.xworkz.medisalesapp")
 public class SpringConfiguration implements WebMvcConfigurer {
+
+    static {
+        loadEnvFile();
+    }
+
+    private static void loadEnvFile() {
+        String rootPath = System.getProperty("user.dir");
+        String envPath = rootPath + "/.env";
+        
+        // Try both root and medi_sales folder
+        if (!Files.exists(Paths.get(envPath))) {
+            envPath = rootPath + "/medi_sales/.env";
+        }
+
+        if (Files.exists(Paths.get(envPath))) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(envPath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (line.trim().isEmpty() || line.startsWith("#")) continue;
+                    String[] parts = line.split("=", 2);
+                    if (parts.length == 2) {
+                        String key = parts[0].trim();
+                        String value = parts[1].trim();
+                        // Remove quotes if present
+                        if (value.startsWith("'") && value.endsWith("'") || 
+                            value.startsWith("\"") && value.endsWith("\"")) {
+                            value = value.substring(1, value.length() - 1);
+                        }
+                        if (System.getProperty(key) == null) {
+                            System.setProperty(key, value);
+                            System.out.println("Loaded from .env: " + key);
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                System.err.println("Could not load .env file: " + e.getMessage());
+            }
+        }
+    }
+
+    public static String getEnv(String key) {
+        String value = System.getenv(key);
+        if (value == null) {
+            value = System.getProperty(key);
+        }
+        return value;
+    }
+
     public SpringConfiguration() {
 
     }
@@ -49,9 +102,9 @@ public class SpringConfiguration implements WebMvcConfigurer {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
         
-        String dbUrl = System.getenv("DB_URL");
-        String dbUser = System.getenv("DB_USERNAME");
-        String dbPass = System.getenv("DB_PASSWORD");
+        String dbUrl = getEnv("DB_URL");
+        String dbUser = getEnv("DB_USERNAME");
+        String dbPass = getEnv("DB_PASSWORD");
 
         if (dbUrl != null) {
             // 1. Standardize the protocol

@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.xworkz.medisalesapp.configuration.SpringConfiguration;
+
 @Slf4j
 @Service
 public class AjaxServiceImpl implements AjaxService {
@@ -109,7 +111,7 @@ public class AjaxServiceImpl implements AjaxService {
 
     @Override
     public String chatWithAi(String prompt) {
-        String apiKey = System.getenv("AI_API_KEY");
+        String apiKey = SpringConfiguration.getEnv("AI_API_KEY");
         if (apiKey == null || apiKey.isEmpty()) {
             return "AI API Key not configured in environment.";
         }

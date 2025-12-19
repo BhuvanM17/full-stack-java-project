@@ -69,10 +69,17 @@
                 const callGemini = async (prompt) => {
                     try {
                         const response = await fetch(`${pageContext.request.contextPath}/api/chatWithAi?prompt=` + encodeURIComponent(prompt));
+
+                        if (!response.ok) {
+                            const errorText = await response.text();
+                            return "Server Error (" + response.status + "): " + (errorText || "Could not reach AI backend");
+                        }
+
                         const text = await response.text();
                         return text;
                     } catch (error) {
-                        return "Sorry, I had trouble connecting to the AI brain. Please check your internet connection.";
+                        console.error("Chatbot Fetch Error:", error);
+                        return "Connectivity Error: " + error.message;
                     }
                 };
 
