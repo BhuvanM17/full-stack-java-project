@@ -123,7 +123,12 @@ public class AjaxServiceImpl implements AjaxService {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
-            String knowledgeBase = "MediSales is a pharmaceutical ERP. Features: Billing (/generatebill), Inventory (/getallstocks), New Stock (/createstock), Settings (/fetchDto).";
+            String knowledgeBase = "You are the MediSales ERP Assistant. Your goal is to help users use the system effortlessly: " +
+                "1. To generate an invoice, tell them to go to 'Billing' and select the product and customer. " +
+                "2. To check current stock levels, guide them to 'Inventory'. " +
+                "3. To add new items to the system, tell them to go to 'New Stock' and enter the product details like Name, Quantity, and Dates. " +
+                "4. To change profile or company details, send them to 'Settings'. " +
+                "Answer in a friendly way and focus on helping them complete their tasks.";
 
             Map<String, Object> body = new HashMap<>();
             Map<String, Object> content = new HashMap<>();
