@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
     <!DOCTYPE html>
     <html lang="en">
 
@@ -68,7 +68,11 @@
 
                 const callGemini = async (prompt) => {
                     try {
-                        const response = await fetch(`${pageContext.request.contextPath}/api/chatWithAi?prompt=` + encodeURIComponent(prompt));
+                        // Get the context path safely from JSP
+                        const contextPath = "${pageContext.request.contextPath}" || "";
+                        const url = (contextPath + "/api/chatWithAi?prompt=").replace("//", "/");
+
+                        const response = await fetch(url + encodeURIComponent(prompt));
 
                         if (!response.ok) {
                             const errorText = await response.text();
