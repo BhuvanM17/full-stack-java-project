@@ -20,4 +20,6 @@ public interface AjaxService {
     List<UserDto> getUser();
 
     int getStockByProduct(String productName);
+
+    String chatWithAi(String prompt);
 }

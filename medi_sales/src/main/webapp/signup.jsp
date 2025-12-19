@@ -264,7 +264,7 @@
                 </div>
 
                 <script>
-                    const API_BASE = window.location.origin + '/api';
+                    const API_BASE = `${pageContext.request.contextPath}/api`;
 
                     const updateSubmitState = (isValid) => {
                         document.getElementById("submit-btn").disabled = !isValid;

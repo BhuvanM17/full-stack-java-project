@@ -11,6 +11,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.*;
+import java.util.HashMap;
+import java.util.Map;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -28,6 +34,8 @@ public class AjaxServiceImpl implements AjaxService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private DistributerRepository distributerRepository;
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public String checkEmail(String email) {
@@ -97,5 +105,40 @@ public class AjaxServiceImpl implements AjaxService {
     @Override
     public int getStockByProduct(String productName) {
         return distributerRepository.getStockByProduct(productName);
+    }
+
+    @Override
+    public String chatWithAi(String prompt) {
+        String apiKey = System.getenv("AI_API_KEY");
+        if (apiKey == null || apiKey.isEmpty()) {
+            return "AI API Key not configured in environment.";
+        }
+
+        String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey;
+
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            String knowledgeBase = "MediSales is a pharmaceutical ERP. Features: Billing (/generatebill), Inventory (/getallstocks), New Stock (/createstock), Settings (/fetchDto).";
+
+            Map<String, Object> body = new HashMap<>();
+            Map<String, Object> content = new HashMap<>();
+            Map<String, Object> part = new HashMap<>();
+            part.put("text", "You are a helpful assistant for MediSales ERP. Knowledge base: " + knowledgeBase + "\nUser asked: " + prompt);
+            content.put("parts", new Object[]{part});
+            body.put("contents", new Object[]{content});
+
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
+            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(response.getBody());
+            return root.path("candidates").get(0).path("content").path("parts").get(0).path("text").asText();
+
+        } catch (Exception e) {
+            log.error("Error calling Gemini API", e);
+            return "Error connecting to AI: " + e.getMessage();
+        }
     }
 }

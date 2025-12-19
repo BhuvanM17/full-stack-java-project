@@ -103,9 +103,13 @@ public class MediSalesRepositoryImpl implements MediSalesRepository{
 
     @Override
     public UserEntity getEntityByCustomername(String customerName) {
+        // Handle "Company - Contact" format by extracting the contact person after the hyphen
+        String contact = customerName.contains(" - ") ? 
+            customerName.substring(customerName.lastIndexOf(" - ") + 3) : customerName;
+            
         return (UserEntity) entityManagerFactory.createEntityManager()
                 .createQuery("select u FROM UserEntity u WHERE u.contactPerson = :contactPerson")
-                .setParameter("contactPerson",customerName).getSingleResult();
+                .setParameter("contactPerson", contact).getSingleResult();
     }
 
 

@@ -339,10 +339,18 @@
                 </div>
             </main>
 
-            <footer
-                style="position: relative; z-index: 2; padding: 2rem; text-align: center; color: #64748b; font-size: 0.85rem; border-top: 1px solid var(--border);">
-                &copy; 2025 MediSales Enterprise. Powered by XWORKZ Cloud.
-            </footer>
+            <script>
+                document.querySelectorAll('.input-wrapper').forEach(wrapper => {
+                    wrapper.addEventListener('click', () => {
+                        const input = wrapper.querySelector('input[type="date"]');
+                        if (input && input.showPicker) {
+                            input.showPicker();
+                        } else if (input) {
+                            input.focus();
+                        }
+                    });
+                });
+            </script>
         </body>
 
         </html>

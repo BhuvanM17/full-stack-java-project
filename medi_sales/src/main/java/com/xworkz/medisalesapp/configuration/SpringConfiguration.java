@@ -21,6 +21,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
+import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -163,5 +164,10 @@ public class SpringConfiguration implements WebMvcConfigurer {
         TemplateEngine templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(springResourceTemplateResolver());
         return templateEngine;
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }

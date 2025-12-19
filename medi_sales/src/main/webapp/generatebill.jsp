@@ -287,7 +287,7 @@
                 </div>
 
                 <script>
-                    const API_BASE = window.location.origin + '/medi_sales/api';
+                    const API_BASE = `${pageContext.request.contextPath}/api`;
 
                     document.addEventListener("DOMContentLoaded", () => {
                         fetchProducts();

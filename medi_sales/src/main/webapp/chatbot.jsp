@@ -59,25 +59,37 @@
                     { role: 'bot', text: '👋 Hi! I\'m your MediSales Assistant. How can I help you today?' }
                 ]);
                 const [input, setInput] = useState('');
+                const [isTyping, setIsTyping] = useState(false);
                 const chatEndRef = useRef(null);
 
                 useEffect(() => {
                     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
                 }, [messages]);
 
-                const handleSend = () => {
-                    if (!input.trim()) return;
-                    const userText = input.trim();
-                    setMessages([...messages, { role: 'user', text: userText }]);
-                    setInput('');
+                const callGemini = async (prompt) => {
+                    try {
+                        const response = await fetch(`${pageContext.request.contextPath}/api/chatWithAi?prompt=` + encodeURIComponent(prompt));
+                        const text = await response.text();
+                        return text;
+                    } catch (error) {
+                        return "Sorry, I had trouble connecting to the AI brain. Please check your internet connection.";
+                    }
+                };
 
-                    // Simulate bot response
-                    setTimeout(() => {
-                        setMessages(prev => [...prev, {
-                            role: 'bot',
-                            text: "I've received your query about '" + userText + "'. I'm currently in demo mode. Please configure my API key in chatbot.jsp to enable full AI capabilities."
-                        }]);
-                    }, 800);
+                const handleSend = async () => {
+                    if (!input.trim() || isTyping) return;
+                    const userText = input.trim();
+                    setMessages(prev => [...prev, { role: 'user', text: userText }]);
+                    setInput('');
+                    setIsTyping(true);
+
+                    const botResponse = await callGemini(userText);
+
+                    setMessages(prev => [...prev, {
+                        role: 'bot',
+                        text: botResponse
+                    }]);
+                    setIsTyping(false);
                 };
 
                 if (!isOpen) {
@@ -126,10 +138,20 @@
                                                 </div>
                                             </div>
                                         ))}
+                                        {isTyping && (
+                                            <div className="flex justify-start">
+                                                <div className="bg-slate-700 p-3 rounded-2xl rounded-bl-none">
+                                                    <div className="flex gap-1">
+                                                        <div className="w-1.5 h-1.5 bg-white/50 rounded-full animate-bounce"></div>
+                                                        <div className="w-1.5 h-1.5 bg-white/50 rounded-full animate-bounce [animation-delay:-.3s]"></div>
+                                                        <div className="w-1.5 h-1.5 bg-white/50 rounded-full animate-bounce [animation-delay:-.5s]"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
                                         <div ref={chatEndRef} />
                                     </div>
 
-                                    {/* Input */}
                                     <div className="p-4 bg-slate-900 border-t border-white/10 flex gap-2">
                                         <input
                                             type="text"
@@ -138,10 +160,12 @@
                                             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                                             placeholder="Ask me something..."
                                             className="flex-1 bg-slate-800 text-white text-sm rounded-xl px-4 py-2 outline-none border border-white/5"
+                                            disabled={isTyping}
                                         />
                                         <button
                                             onClick={handleSend}
-                                            className="bg-indigo-600 text-white p-2 rounded-xl"
+                                            className="bg-indigo-600 text-white p-2 rounded-xl disabled:opacity-50"
+                                            disabled={isTyping}
                                         >
                                             <i className="fas fa-paper-plane"></i>
                                         </button>

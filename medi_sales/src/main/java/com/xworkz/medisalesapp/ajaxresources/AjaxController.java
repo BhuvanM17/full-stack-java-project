@@ -53,12 +53,17 @@ public class AjaxController {
     public List<String> getCustomerName(){
         List<UserDto> userDtos = ajaxService.getUser();
         return userDtos.stream()
-                .map(UserDto::getContactPerson)
+                .map(u -> u.getCompanyName() + " - " + u.getContactPerson())
                 .collect(Collectors.toList());
     }
     @GetMapping("getStockByProduct")
     public int getStocks(String productName){
 
         return ajaxService.getStockByProduct(productName);
+    }
+
+    @GetMapping("chatWithAi")
+    public String chatWithAi(String prompt){
+        return ajaxService.chatWithAi(prompt);
     }
 }
