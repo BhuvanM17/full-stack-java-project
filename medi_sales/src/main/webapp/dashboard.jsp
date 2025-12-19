@@ -415,6 +415,11 @@
                         }
                     });
                 </script>
+                <!-- Chatbot Integration -->
+                <iframe src="chatbot.jsp"
+                    style="position: fixed; bottom: 0; right: 0; width: 420px; height: 620px; border: none; z-index: 9999; overflow: hidden;"
+                    allowtransparency="true">
+                </iframe>
             </body>
 
             </html>

@@ -18,6 +18,7 @@
                     --bg-dark: #0f172a;
                     --card-glass: rgba(30, 41, 59, 0.7);
                     --border: rgba(255, 255, 255, 0.1);
+                    color-scheme: dark;
                 }
 
                 body {
@@ -122,6 +123,7 @@
                     top: 50%;
                     transform: translateY(-50%);
                     color: var(--primary);
+                    pointer-events: none;
                 }
 
                 input {
@@ -138,6 +140,28 @@
                 input:focus {
                     border-color: var(--primary);
                     box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+                }
+
+                input[type="date"]::-webkit-calendar-picker-indicator {
+                    filter: invert(1);
+                    cursor: pointer;
+                    opacity: 0.6;
+                    transition: opacity 0.3s;
+                }
+
+                input[type="date"]::-webkit-calendar-picker-indicator:hover {
+                    opacity: 1;
+                }
+
+                input[type="date"]::-webkit-datetime-edit-text,
+                input[type="date"]::-webkit-datetime-edit-month-field,
+                input[type="date"]::-webkit-datetime-edit-day-field,
+                input[type="date"]::-webkit-datetime-edit-year-field {
+                    color: white;
+                }
+
+                input[type="date"]::-webkit-datetime-edit-text {
+                    opacity: 0.5;
                 }
 
                 .btn-submit {
@@ -221,73 +245,75 @@
 
                         <form action="stock" method="post" class="form-grid">
                             <div class="form-group">
-                                <label>Product Company</label>
+                                <label for="productCompany">Product Company</label>
                                 <div class="input-wrapper">
                                     <i class="fa-solid fa-building"></i>
-                                    <input type="text" name="productCompany" placeholder="e.g. Pfizer" required>
+                                    <input type="text" id="productCompany" name="productCompany"
+                                        placeholder="e.g. Pfizer" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Product Name</label>
+                                <label for="productName">Product Name</label>
                                 <div class="input-wrapper">
                                     <i class="fa-solid fa-box"></i>
-                                    <input type="text" name="productName" placeholder="e.g. Paracetamol" required>
+                                    <input type="text" id="productName" name="productName"
+                                        placeholder="e.g. Paracetamol" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>MRP (₹)</label>
+                                <label for="mrp">MRP (₹)</label>
                                 <div class="input-wrapper">
                                     <i class="fa-solid fa-indian-rupee-sign"></i>
-                                    <input type="text" name="mrp" placeholder="0.00" required>
+                                    <input type="text" id="mrp" name="mrp" placeholder="0.00" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Pack Type</label>
+                                <label for="pack">Pack Type</label>
                                 <div class="input-wrapper">
                                     <i class="fa-solid fa-boxes-stacked"></i>
-                                    <input type="text" name="pack" placeholder="e.g. 10x10 Strips" required>
+                                    <input type="text" id="pack" name="pack" placeholder="e.g. 10x10 Strips" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>MFG Date</label>
+                                <label for="mfgDate">MFG Date</label>
                                 <div class="input-wrapper">
                                     <i class="fa-solid fa-calendar-day"></i>
-                                    <input type="date" name="mfgDate" required>
+                                    <input type="date" id="mfgDate" name="mfgDate" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>EXP Date</label>
+                                <label for="expDate">EXP Date</label>
                                 <div class="input-wrapper">
                                     <i class="fa-solid fa-calendar-xmark"></i>
-                                    <input type="date" name="expDate" required>
+                                    <input type="date" id="expDate" name="expDate" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Initial Quantity</label>
+                                <label for="quantity">Initial Quantity</label>
                                 <div class="input-wrapper">
                                     <i class="fa-solid fa-calculator"></i>
-                                    <input type="number" name="quantity" placeholder="0" required>
+                                    <input type="number" id="quantity" name="quantity" placeholder="0" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Purchase Rate (₹)</label>
+                                <label for="rate">Purchase Rate (₹)</label>
                                 <div class="input-wrapper">
                                     <i class="fa-solid fa-tag"></i>
-                                    <input type="text" name="rate" placeholder="0.00" required>
+                                    <input type="text" id="rate" name="rate" placeholder="0.00" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>GST (%)</label>
+                                <label for="gst">GST (%)</label>
                                 <div class="input-wrapper">
                                     <i class="fa-solid fa-percent"></i>
-                                    <input type="text" name="gst" placeholder="18" required>
+                                    <input type="text" id="gst" name="gst" placeholder="18" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Discount (%)</label>
+                                <label for="discount">Discount (%)</label>
                                 <div class="input-wrapper">
                                     <i class="fa-solid fa-hand-holding-dollar"></i>
-                                    <input type="text" name="discount" placeholder="0" required>
+                                    <input type="text" id="discount" name="discount" placeholder="0" required>
                                 </div>
                             </div>
 
