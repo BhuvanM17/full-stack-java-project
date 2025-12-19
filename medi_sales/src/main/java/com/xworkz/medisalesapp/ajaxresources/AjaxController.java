@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/")
+@RequestMapping("api")
 @Slf4j
 public class AjaxController {
     @Autowired
@@ -41,7 +41,7 @@ public class AjaxController {
         return ajaxService.sendOtp(email);
     }
     @GetMapping("getProducts")
-    public List<String> getProducts(Model model){
+    public List<String> getProducts(){
         List<DistributorDto> distributors = ajaxService.getProducts();
 
         return distributors.stream()

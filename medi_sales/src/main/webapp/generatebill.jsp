@@ -287,37 +287,62 @@
                 </div>
 
                 <script>
-                    const API_BASE = `${pageContext.request.contextPath}/api`;
+                    // Ensure API_BASE doesn't have double slashes
+                    const rootPath = '${pageContext.request.contextPath}'.replace(/\/$/, '');
+                    const API_BASE = rootPath + '/api';
 
                     document.addEventListener("DOMContentLoaded", () => {
+                        console.log("Initializing billing page. API_BASE:", API_BASE);
                         fetchProducts();
                         fetchCustomers();
                     });
 
                     async function fetchProducts() {
                         try {
+                            console.log("Fetching products from:", `${API_BASE}/getProducts`);
                             const res = await fetch(`${API_BASE}/getProducts`);
+                            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
                             const data = await res.json();
+                            console.log("Products received:", data);
                             let select = document.getElementById("productName");
+
+                            if (!data || data.length === 0) {
+                                console.warn("No products found in database.");
+                                return;
+                            }
+
                             data.forEach(p => {
                                 let opt = document.createElement("option");
                                 opt.value = p; opt.text = p;
                                 select.appendChild(opt);
                             });
-                        } catch (e) { console.error(e); }
+                        } catch (e) {
+                            console.error("Failed to fetch products:", e);
+                        }
                     }
 
                     async function fetchCustomers() {
                         try {
+                            console.log("Fetching customers from:", `${API_BASE}/getCustomer`);
                             const res = await fetch(`${API_BASE}/getCustomer`);
+                            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
                             const data = await res.json();
+                            console.log("Customers received:", data);
                             let select = document.getElementById("customerName");
+
+                            if (!data || data.length === 0) {
+                                console.warn("No customers found in database.");
+                                return;
+                            }
+
                             data.forEach(c => {
                                 let opt = document.createElement("option");
                                 opt.value = c; opt.text = c;
                                 select.appendChild(opt);
                             });
-                        } catch (e) { console.error(e); }
+                        } catch (e) {
+                            console.error("Failed to fetch customers:", e);
+                        }
                     }
 
                     async function fetchProductStock() {
