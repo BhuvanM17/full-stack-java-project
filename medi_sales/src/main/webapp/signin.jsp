@@ -22,7 +22,7 @@
 
                     body {
                         background-color: var(--bg-dark);
-                        background-image: url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop');
+                        background-image: url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format');
                         background-size: cover;
                         background-position: center;
                         height: 100vh;
